@@ -1,9 +1,12 @@
 import $Utils from '@/common/utils/index.ts';
-import { baseURL } from './config.ts';
+import baseURL, { GET, POST, SUCCESS_CODE } from './config.ts';
+import checkStatusCode from './constant/statusCode.ts';
+
+const TIMEOUT = 10000;
 
 function Axios() {
 	const interceptors = {
-		request: null
+		request: null,
 		response: null
 	}
 	
@@ -53,15 +56,25 @@ function Axios() {
 				data,
 				dataType,
 				success: response => {
-					let rsp;
-					
-					if(interceptors.response && $Utils.isFunc(interceptors.response)) {
-						rsp = interceptors.response(response, path)
+					const statusCode = response.statusCode;
+					if(!checkStatusCode(statusCode)) {
+						reject('');
 					} else {
-						rsp = response;
+						let rsp;
+						
+						if(interceptors.response && $Utils.isFunc(interceptors.response)) {
+							rsp = interceptors.response(response, path)
+						} else {
+							rsp = response.data;
+						}
+						
+						if(rsp.code !== SUCCESS_CODE) {
+							uni.showToast({ title: rsp.msg, icon: 'none' });
+							reject('');
+						} else {
+							resolve(rsp);						
+						}
 					}
-					
-					resolve(rsp);
 				},
 				fail: fail => {
 					reject(fail);
@@ -123,6 +136,8 @@ axios.after((response, path) => {
 	
 	return response.data;
 })
+
+export default axios;
 
 
 
