@@ -86,7 +86,7 @@ function Router() {
 		}
 		
 		if(funcType !== RouterFuncType.NavigateBack) {
-			if (funcType !== RouterFuncType.SwitchTab && config.query && !$Utils.emptyObj(config.query))
+			if (funcType !== RouterFuncType.SwitchTab && config.query && !$Utils.isEmptyObj(config.query))
 				defaultConfig.url = queryString(config);
 			else
 				defaultConfig.url = config.path.path;
@@ -96,7 +96,7 @@ function Router() {
 			if(typeof config.success === 'function') 
 				defaultConfig.success = config.success;
 				
-			if(config.events && !$Utils.emptyObj(config.events))
+			if(config.events && !$Utils.isEmptyObj(config.events))
 				defaultConfig.events = config.events;
 		}
 		
@@ -112,6 +112,7 @@ function Router() {
 	 * @param {Object} _config
 	 * 	@property {object} path { name: '', path: '', auth_with: true, routerName: '' }
 	 * 	@property {object} query { a: 1, b: 1 }
+	 * 	@property {object} events { a: () => {} }
 	 * 	@property {func} success
 	 * 	@property {func} fail
 	 * 	@property {func} complete
