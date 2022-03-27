@@ -1,5 +1,11 @@
 <template>
-	<button :type="type" :size="size"></button>
+	<button 
+		:type="type" 
+		:size="size" 
+		:plain="plain" 
+		:disabled="disabled"
+		:loading="loading"
+	></button>
 </template>
 
 <script lang="ts">
@@ -14,6 +20,14 @@
 				default: 'default'
 			},
 			plain: {
+				type: Boolean,
+				default: false
+			},
+			disabled: {
+				type: Boolean,
+				default: false
+			},
+			loading: {
 				type: Boolean,
 				default: false
 			}
