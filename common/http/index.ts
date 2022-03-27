@@ -4,6 +4,21 @@ import checkStatusCode from './constant/statusCode.ts';
 
 const TIMEOUT = 10000;
 
+type RequestPathType = {
+	url: string,
+	method: string,
+	auth_with: boolean,
+	isRecord: boolean
+}
+
+type RequestConfigType = {
+	path: RequestPathType,
+	data?: object,
+	timeout?: number,
+	header?: object,
+	dataType?: string,
+}
+
 function Axios() {
 	const interceptors = {
 		request: null,
@@ -25,7 +40,7 @@ function Axios() {
 		interceptors.response = callback;
 	}
 	
-	function abort(key) {
+	function abort(key: string) {
 		if(!requestTask.has(key)) {
 			console.error('取消失败寻找请求任务key失败', key);
 			return;
@@ -45,7 +60,7 @@ function Axios() {
 	 * 	@property {object} header
 	 * 	@property {string} dataType
 	 */
-	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' } = {}) {
+	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' }: RequestConfigType = {}) {
 		const abortKey = 'r_' + path.url;
 		return new Promise((resolve, reject) => {
 			let options = {
