@@ -1,8 +1,8 @@
-// 字体
-$sizes: (64rpx, 48rpx, 40rpx, 32rpx, 28rpx, 24rpx, 20rpx);
-// 间距
-$spaces: (0, 20rpx, 24rpx, 28rpx, 32rpx, 36rpx, 40rpx, 44rpx, 48rpx);
-// 圆角
+/* 字体 */
+$sizes: 64, 48, 40, 32, 28, 24, 20;
+/* 间距 */
+$spaces: (n: 0, s: 20rpx, sm: 24rpx, sm1: 28rpx, m: 32rpx, m1: 36rpx, ml: 40rpx, ml1: 44rpx, ml2: 48rpx);
+/* 圆角 */
 $fillets: (s: 4rpx, sm: 8rpx, base: 12rpx, cirlce: 50%);
 
 @each $size in $sizes {
@@ -11,27 +11,27 @@ $fillets: (s: 4rpx, sm: 8rpx, base: 12rpx, cirlce: 50%);
   }
 }
 
-@each $space in $spaces {
-	.mx { margin-left: $space;margin-right: $space; }
-	.my { margin-top: $space;margin-bottom:$space; }
-	.mt { margin-top: $space; }
-	.mb { margin-bottom: $space; }
-	.ml { margin-left: $space; }
-	.mr { margin-right: $space; }
+@each $key, $space in $spaces {
+	.mx-#{$key} { margin-left: $space;margin-right: $space; }
+	.my-#{$key} { margin-top: $space;margin-bottom:$space; }
+	.mt-#{$key} { margin-top: $space; }
+	.mb-#{$key} { margin-bottom: $space; }
+	.ml-#{$key} { margin-left: $space; }
+	.mr-#{$key} { margin-right: $space; }
 	
-	.px { padding-left: $space;padding-right: $space; }
-	.py { padding-top: $space;padding-bottom: $space; }
-	.pt { padding-top: $space; }
-	.pb { padding-bottom: $space; }
-	.pl { padding-left: $space; }
-	.pr { padding-right: $space; }
+	.px-#{$key} { padding-left: $space;padding-right: $space; }
+	.py-#{$key} { padding-top: $space;padding-bottom: $space; }
+	.pt-#{$key} { padding-top: $space; }
+	.pb-#{$key} { padding-bottom: $space; }
+	.pl-#{$key} { padding-left: $space; }
+	.pr-#{$key} { padding-right: $space; }
 }
 
 // 边框
 .border {
 	@each $key, $fillet in $fillets {
 		&-radius {
-			&-#{$key}: $fillet;
+			&-#{$key} { border-radius: $fillet; }
 			
 			&-t-#{$key} { 
 				border-top-left-radius: $fillet;

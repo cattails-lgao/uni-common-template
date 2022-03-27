@@ -1,6 +1,11 @@
 <template>
 	<button 
-		class="mx-n py-n"
+		class="btn mx-n my-n py-n px-n font-32r"
+		:class="[
+			setClass, 
+			showRadius ? 'border-radius-' + radiusSize : ''
+		]"
+		:style="[setStyle]"
 		:type="type" 
 		:size="size" 
 		:plain="plain" 
@@ -28,12 +33,50 @@
 		@error="_error"
 		@opensetting="_opensetting"
 		@launchapp="_launchapp"
+		@tap.stop="_tap"
 	><slot></slot></button>
 </template>
 
 <script>
+	let timer;
 	export default {
 		props: {
+			setClass: {
+				type: String,
+				default: ''
+			},
+			height: {
+				type: Number,
+				default: 80
+			},
+			color: {
+				type: String,
+				default: ''
+			},
+			bgColor: {
+				type: String,
+				default: ''
+			},
+			showRadius: {
+				type: Boolean,
+				default: true
+			},
+			radiusSize: {
+				type: String,
+				default: 'sm' // s sm base cirlce
+			},
+			showBorder: {
+				type: Boolean,
+				default: true
+			},
+			borderWidth: {
+				type: Number,
+				default: 1
+			},
+			borderColor: {
+				type: String,
+				default: '#f1f1f1'
+			},
 			size: {
 				type: String,
 				default: 'default'
@@ -107,17 +150,57 @@
 				default: false
 			}
 		},
+		computed: {
+			setStyle() {
+				const styles = {
+					height: this.height + 'rpx',
+					lineHeight: this.height + 'rpx',
+					color: this.color,
+					bgColor: this.bgColor
+				};
+				
+				if(this.showBorder) styles.border = `${this.borderWidth}rpx solid ${this.borderColor}`;
+				
+				return styles;
+			}
+		},
 		methods: {
+			_tap(e) {
+				if(timer) return;
+				timer = setTimeout(() => {
+					clearTimeout(timer);
+					timer = null;
+				}, 500)
+				
+				this.$emit('cTap', e);
+			},
 			_getphonenumber(e) {
+				if(timer) return;
+				timer = setTimeout(() => {
+					clearTimeout(timer);
+					timer = null;
+				}, 500)
 				this.$emit('getphonenumber', e.detail)
 			},
 			_getuserinfo(e) {
+				if(timer) return;
+				timer = setTimeout(() => {
+					clearTimeout(timer);
+					timer = null;
+				}, 500)
+				
 				this.$emit('getuserinfo', e.detail)
 			},
 			_error(e) {
 				console.error('open-type', e.detail.errMsg)
 			},
 			_opensetting(e) {
+				if(timer) return;
+				timer = setTimeout(() => {
+					clearTimeout(timer);
+					timer = null;
+				}, 500)
+				
 				this.$emit('opensetting', e.detail.authSetting)
 			},
 			_launchapp() {
@@ -128,4 +211,9 @@
 </script>
 
 <style lang="scss" scope>
+	.btn {
+		&::after {
+			border: none;
+		}
+	}
 </style>
