@@ -1,75 +1,75 @@
-export default ((function Utils {
+function Utils() {
 	/**
 	 * 是否为数字
 	 * @param {Object} num
 	 */
-	function isNumber(num) {
+	function isNumber(num: number) {
 		// return Object.prototype.toString.call(num) === "[object Number]";
 		return typeof num === 'number';
-	},
+	}
 	/**
 	 * 是否为字符串
 	 * @param {Object} str
 	 */
-	function isString(str) {
+	function isString(str: string) {
 		// return Object.prototype.toString.call(str) === "[object String]";
 		return typeof str === 'string';
-	},
+	}
 	/**
 	 * 是否为函数
 	 * @param {Object} func
 	 */
 	function isFunc(func) {
 		return Object.prototype.toString.call(func) === "[object Function]";
-	},
+	}
 	/**
 	 * 是否为数组
 	 * @param {Object} arr
 	 */
 	function isArray(arr) {
 		return Object.prototype.toString.call(arr) === "[object Array]";
-	},
+	}
 	/**
 	 * 是否是对象
 	 * @param {Object} obj
 	 */
-	function isObject(obj) {
+	function isObject(obj: object) {
 		return Object.prototype.toString.call(obj) === "[object Object]";
-	},
+	}
 	/**
 	 * 是否为布尔值
 	 * @param {Object} bool
 	 */
-	function isBoolean(bool) {
+	function isBoolean(bool: bool) {
 		return typeof bool === 'boolean';
-	},
+	}
 	/**
 	 * 是否为时间对象
 	 * @param {Object} date
 	 */
 	function isDate(date) {
 		return Object.prototype.toString.call(date) === "[object Date]";
-	},
+	}
 	/**
 	 * 判断对象是否为空
 	 * @param {Object} Obj
 	 */
-	function isEmptyObj(Obj) {
+	function isEmptyObj(Obj: object) {
 		for (let attr in Obj) {
 			return false;
 		}
 		return true
-	},
+	}
 	/**
 	 * 小数四舍五入
 	 * @param {number} number
 	 * @param {number} precision
 	 */
-	function decimalRound(number, precision = 2) {
+	function decimalRound(number: number, precision:number = 2) {
 		//same as:
 		//return Number(Math.round(+number + 'e' + precision) + 'e-' + precision);
 		return Math.round(+number + 'e' + precision) / Math.pow(10, precision);
-	},
+	}
 	/**
 	 * 生成唯一ID
 	 */
@@ -77,19 +77,19 @@ export default ((function Utils {
 		//用于生成uuid
 		const S4 = () => (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 		return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
-	},
+	}
 	/**
 	 * 从指定的数组里随机获取值
 	 * @param {Array} names
 	 */
 	function createRandomName(names) {
 		return names[~~(Math.random() * names.length)];
-	},
+	}
 	/**
 	 * 过去了多久
 	 * @param {Date} timestamp 时间戳
 	 */
-	function pastDateFormat(timestamp) {
+	function pastDateFormat(timestamp: number) {
 		if (!timestamp || !this.isNumber(timestamp)) {
 			console.error('时间格式错误', timestamp)
 			return;
@@ -127,12 +127,12 @@ export default ((function Utils {
 			return Math.floor(diffTimestamp / second) + '秒前';
 
 		return '刚刚'
-	},
+	}
 	/**
 	 * 补零
 	 * @param {number} num 
 	 */
-	function fillZeroOfTime(num) {
+	function fillZeroOfTime(num: number) {
 		if (!this.isNumber(num)) {
 			console.error('补零：该参数不是数字', num);
 			return num;
@@ -141,13 +141,13 @@ export default ((function Utils {
 		if (num > 9) return num;
 
 		return '0' + num;
-	},
+	}
 	/**
 	 * 时间格式化
 	 * @param {string} time
 	 * @param {string} format 格式
 	 */
-	function formatTime(time, format = 'YYYY-mm-dd HH:MM:SS') {
+	function formatTime(time, format: string = 'YYYY-mm-dd HH:MM:SS') {
 		const date = new Date(time);
 		if(date.toString() === 'Invalid Date') {
 			console.error('请传入正确的时间格式', time);
@@ -172,12 +172,12 @@ export default ((function Utils {
 			};
 		};
 		return fmt;
-	},
+	}
 	/**
 	 * 扫码进入-参数解析
 	 * @param {Object} scene
 	 */
-	function parseScene(scene) {
+	function parseScene(scene: string) {
 		const params = {}; // var params = {};也行        
 		const deSceneRsp = decodeURIComponent(scene).split('&');
 		for (let i = 0; i < deSceneRsp.length; i++) {
@@ -189,7 +189,7 @@ export default ((function Utils {
 	
 	return Object.freeze({
 		isNumber,
-		isString,,
+		isString,
 		isFunc,
 		isArray,
 		isObject,
@@ -204,4 +204,6 @@ export default ((function Utils {
 		formatTime,
 		parseScene
 	})
-})();
+}
+
+export default Utils();

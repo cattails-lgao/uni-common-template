@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+		"target": "es5", // 目标语言的版本
+        "module": "es6", // 指定生成代码的模板标准
+        "noImplicitAny": true, // 不允许隐式的 any 类型
+        "removeComments": true, // 删除注释 
+        "preserveConstEnums": true, // 保留 const 和 enum 声明
+		"strictNullChecks": true, // 开启null、undefined检测
+		"strictBindCallApply": true, // 严格的bind/call/apply检查
+		"noUnusedLocals": true, // 检查只声明、未使用的局部变量(只提示不报错)
+		"noUnusedParameters": true, // 检查未使用的函数参数(只提示不报错)
+		"noFallthroughCasesInSwitch": true, // 防止switch语句贯穿(即如果没有break语句后面不会执行),
+        "sourceMap": true
+    },
+	"files": [ // 指定待编译文件
+		"./main.ts"
+	]
+}
