@@ -59,7 +59,7 @@ function Router() {
 	 * @param {Object} funcType
 	 * @param {Object} _config
 	 */
-	generateOpt(funcType, _config) {
+	function generateOpt(funcType, _config) {
 		let config = {};
 		try {
 			conifg = JSON.parse(JSON.stringify(_config));
@@ -71,7 +71,7 @@ function Router() {
 			success: () => {},
 			fail: fail => {},
 			complete: complete => {
-				console.log(_config, complete)
+				console.log(_config, complete);
 			},
 			// #ifdef APP-PLUS
 			animationType: AnimateType.slideInRight,
@@ -197,7 +197,7 @@ function Router() {
 	 * 	@property {object} path
 	 * 	@property {object} query
 	 */
-	queryString({ path, query } = {}) {
+	function queryString({ path, query } = {}) {
 		if ((!path && $Utils.isEmptyObj(path)) || (!query && $Utils.isEmptyObj(query))) {
 			console.error('router->queryString->path或query参数错误');
 			return path.path;
