@@ -3,7 +3,7 @@ function Utils() {
 	 * 是否为数字
 	 * @param {Object} num
 	 */
-	function isNumber(num: number) {
+	function isNumber(num) {
 		// return Object.prototype.toString.call(num) === "[object Number]";
 		return typeof num === 'number';
 	}
@@ -11,7 +11,7 @@ function Utils() {
 	 * 是否为字符串
 	 * @param {Object} str
 	 */
-	function isString(str: string) {
+	function isString(str) {
 		// return Object.prototype.toString.call(str) === "[object String]";
 		return typeof str === 'string';
 	}
@@ -33,14 +33,14 @@ function Utils() {
 	 * 是否是对象
 	 * @param {Object} obj
 	 */
-	function isObject(obj: object) {
+	function isObject(obj) {
 		return Object.prototype.toString.call(obj) === "[object Object]";
 	}
 	/**
 	 * 是否为布尔值
 	 * @param {Object} bool
 	 */
-	function isBoolean(bool: bool) {
+	function isBoolean(bool) {
 		return typeof bool === 'boolean';
 	}
 	/**
@@ -54,7 +54,7 @@ function Utils() {
 	 * 判断对象是否为空
 	 * @param {Object} Obj
 	 */
-	function isEmptyObj(Obj: object) {
+	function isEmptyObj(Obj) {
 		for (let attr in Obj) {
 			return false;
 		}
@@ -65,7 +65,7 @@ function Utils() {
 	 * @param {number} number
 	 * @param {number} precision
 	 */
-	function decimalRound(number: number, precision:number = 2) {
+	function decimalRound(number, precision = 2) {
 		//same as:
 		//return Number(Math.round(+number + 'e' + precision) + 'e-' + precision);
 		return Math.round(+number + 'e' + precision) / Math.pow(10, precision);
@@ -89,7 +89,7 @@ function Utils() {
 	 * 过去了多久
 	 * @param {Date} timestamp 时间戳
 	 */
-	function pastDateFormat(timestamp: number) {
+	function pastDateFormat(timestamp) {
 		if (!timestamp || !this.isNumber(timestamp)) {
 			console.error('时间格式错误', timestamp)
 			return;
@@ -132,7 +132,7 @@ function Utils() {
 	 * 补零
 	 * @param {number} num 
 	 */
-	function fillZeroOfTime(num: number) {
+	function fillZeroOfTime(num) {
 		if (!this.isNumber(num)) {
 			console.error('补零：该参数不是数字', num);
 			return num;
@@ -145,16 +145,14 @@ function Utils() {
 	/**
 	 * 时间格式化
 	 * @param {string} time
-	 * @param {string} format 格式
+	 * @param {string} fmt 格式
 	 */
-	function formatTime(time, format: string = 'YYYY-mm-dd HH:MM:SS') {
+	function formatTime(time, fmt = 'YYYY-mm-dd HH:MM:SS') {
 		const date = new Date(time);
 		if(date.toString() === 'Invalid Date') {
 			console.error('请传入正确的时间格式', time);
 			return '';
 		}
-
-		let ret;
 		
 		const opt = {
 			"Y+": date.getFullYear().toString(), // 年
@@ -165,11 +163,12 @@ function Utils() {
 			"S+": date.getSeconds().toString() // 秒
 			// 有其他格式化字符需求可以继续添加，必须转化成字符串
 		};
+		let ret;
 		for (let k in opt) {
 			ret = new RegExp("(" + k + ")").exec(fmt);
 			if (ret) {
 				fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-			};
+			}
 		};
 		return fmt;
 	}
@@ -177,7 +176,7 @@ function Utils() {
 	 * 扫码进入-参数解析
 	 * @param {Object} scene
 	 */
-	function parseScene(scene: string) {
+	function parseScene(scene) {
 		const params = {}; // var params = {};也行        
 		const deSceneRsp = decodeURIComponent(scene).split('&');
 		for (let i = 0; i < deSceneRsp.length; i++) {

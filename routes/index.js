@@ -1,5 +1,5 @@
-import $Utils from '@/common/utils/index.ts';
-import AllRouter from './constant/index.ts';
+import $Utils from '@/common/utils/index.js';
+import AllRouter from './constant/index.js';
 
 const RouterFuncType = {
 	NavigateTo: 'navigateTo',
@@ -22,22 +22,6 @@ const AnimateType = {
 }
 
 const AnimationDuration = 300;
-
-type ConfigType = {
-	path: PathType,
-	query?: object,
-	events?: object,
-	success?: () => {},
-	fail?: () => {},
-	complete?: () => {}
-}
-
-type PathType = {
-	name: string,
-	path: string,
-	auth_with: boolean,
-	routerName: string
-}
 
 function Router() {
 	// 拦截器
@@ -75,7 +59,7 @@ function Router() {
 	 * @param {Object} funcType
 	 * @param {Object} _config
 	 */
-	function generateOpt(funcType: string, _config: ConfigType) {
+	function generateOpt(funcType, _config) {
 		let config = {};
 		try {
 			conifg = JSON.parse(JSON.stringify(_config));
@@ -133,7 +117,7 @@ function Router() {
 	 * 	@property {func} fail
 	 * 	@property {func} complete
 	 */
-	function navigateTo(_config: ConfigType) {
+	function navigateTo(_config) {
 		if(!checkRouterAuth(_config)) return;
 		
 		let config;
@@ -146,7 +130,7 @@ function Router() {
 		uni.navigateTo(options);
 	}
 
-	function redirectTo(_config: ConfigType) {
+	function redirectTo(_config) {
 		if(!checkRouterAuth(_config)) return;
 
 		let config;
@@ -159,7 +143,7 @@ function Router() {
 		uni.redirectTo(options)
 	}
 
-	function reLaunch(_config: ConfigType) {
+	function reLaunch(_config) {
 		if(!checkRouterAuth(_config)) return;
 		
 		let config;
@@ -172,7 +156,7 @@ function Router() {
 		uni.reLaunch(options)
 	}
 
-	function switchTab(_config: ConfigType) {
+	function switchTab(_config) {
 		if(!checkRouterAuth(_config)) return;
 		
 		let config;
@@ -185,7 +169,7 @@ function Router() {
 		uni.switchTab(options)
 	}
 
-	function navigateBack(delta: number = 1) {
+	function navigateBack(delta = 1) {
 		uni.navigateBack(generateOpt(RouterFuncType.NavigateBack, {
 			delta
 		}))
@@ -195,7 +179,7 @@ function Router() {
 	 * 校验路由权限
 	 * @param {Object} _config
 	 */
-	function checkRouterAuth(_config: ConfigType) {
+	function checkRouterAuth(_config) {
 		return _config.path.auth_with;
 	}
 	
@@ -206,7 +190,7 @@ function Router() {
 	 * @param {Object} bute 路由节点
 	 * @param {Object} value
 	 */
-	function setRouteBute(moduleName: string, routeName: string, bute: string, value) {
+	function setRouteBute(moduleName, routeName, bute, value) {
 		AllRouter[moduleName][routeName][bute] = value;
 	}
 	
@@ -216,7 +200,7 @@ function Router() {
 	 * 	@property {object} path
 	 * 	@property {object} query
 	 */
-	function queryString({ path, query }: ConfigType = {} ) {
+	function queryString({ path, query } = {} ) {
 		if ((!path && $Utils.isEmptyObj(path)) || (!query && $Utils.isEmptyObj(query))) {
 			console.error('router->queryString->path或query参数错误');
 			return path.path;

@@ -1,10 +1,10 @@
 <template>
 	<view>
-
+		<c-button>登录</c-button>
 	</view>
 </template>
 
-<script lang="ts">
+<script>
 	export default {
 		data() {
 			return {

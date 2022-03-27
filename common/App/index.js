@@ -1,6 +1,6 @@
-import Axios from '../http/index.ts';
+import Axios from '../http/index.js';
 
-import * as Interface from '../http/constant/index.ts';
+import * as Interface from '../http/constant/index.js';
 
 function App() {
 	function Test() {

@@ -1,5 +1,5 @@
-import Utils from './utils/index.ts';
-import App from './App/index.ts';
+import Utils from './utils/index.js';
+import App from './App/index.js';
 
 export default function createCommon(vm) {
 	vm.prototype.$Utils = Utils;

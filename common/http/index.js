@@ -1,23 +1,8 @@
-import $Utils from '@/common/utils/index.ts';
-import baseURL, { GET, POST, SUCCESS_CODE } from './config.ts';
-import checkStatusCode from './constant/statusCode.ts';
+import $Utils from '@/common/utils/index.js';
+import baseURL, { GET, POST, SUCCESS_CODE } from './config.js';
+import checkStatusCode from './constant/statusCode.js';
 
 const TIMEOUT = 10000;
-
-type RequestPathType = {
-	url: string,
-	method: string,
-	auth_with: boolean,
-	isRecord: boolean
-}
-
-type RequestConfigType = {
-	path: RequestPathType,
-	data?: object,
-	timeout?: number,
-	header?: object,
-	dataType?: string,
-}
 
 function Axios() {
 	const interceptors = {
@@ -40,7 +25,7 @@ function Axios() {
 		interceptors.response = callback;
 	}
 	
-	function abort(key: string) {
+	function abort(key) {
 		if(!requestTask.has(key)) {
 			console.error('取消失败寻找请求任务key失败', key);
 			return;
@@ -60,7 +45,7 @@ function Axios() {
 	 * 	@property {object} header
 	 * 	@property {string} dataType
 	 */
-	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' }: RequestConfigType = {}) {
+	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' } = {}) {
 		const abortKey = 'r_' + path.url;
 		return new Promise((resolve, reject) => {
 			let options = {
@@ -132,8 +117,7 @@ function Axios() {
 const axios = Axios();
 
 axios.before((_config, path) => {
-	if(path.auth_with)
-		_config.header['Authorization'] = '';
+	if(path.auth_with) _config.header['Authorization'] = '';
 		
 	return _config;
 })
@@ -153,6 +137,3 @@ axios.after((response, path) => {
 })
 
 export default axios;
-
-
-

@@ -1,6 +1,6 @@
-import App from './App';
-import createRouter from '@/routes/index.ts';
-import createCommon from '@/common/index.ts';
+import App from './App.vue';
+import createRouter from '@/routes/index.js';
+import createCommon from '@/common/index.js';
 
 // #ifndef VUE3
 import Vue from 'vue'
@@ -10,7 +10,7 @@ App.mpType = 'app';
 createRouter(Vue);
 createCommon(Vue);
 
-const app = new Vue({
+const app = new Vue({ 
     ...App
 })
 app.$mount()
@@ -20,7 +20,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
-  return {
+  return { 
     app
   }
 }
