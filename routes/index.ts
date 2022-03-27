@@ -71,7 +71,9 @@ function Router() {
 			success: () => {},
 			fail: fail => {},
 			complete: complete => {
-				console.log(_config, complete);
+				if (process.env.NODE_ENV === 'development') {
+					console.log(_config, complete);
+				}
 			},
 			// #ifdef APP-PLUS
 			animationType: AnimateType.slideInRight,
