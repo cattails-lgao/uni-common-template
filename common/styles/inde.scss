@@ -1,0 +1,103 @@
+// 字体
+$sizes: (64rpx, 48rpx, 40rpx, 32rpx, 28rpx, 24rpx, 20rpx);
+// 间距
+$spaces: (0, 20rpx, 24rpx, 28rpx, 32rpx, 36rpx, 40rpx, 44rpx, 48rpx);
+// 圆角
+$fillets: (s: 4rpx, sm: 8rpx, base: 12rpx, cirlce: 50%);
+
+@each $size in $sizes {
+  .font-#{$size}r {
+    font-size: $size + rpx;
+  }
+}
+
+@each $space in $spaces {
+	.mx { margin-left: $space;margin-right: $space; }
+	.my { margin-top: $space;margin-bottom:$space; }
+	.mt { margin-top: $space; }
+	.mb { margin-bottom: $space; }
+	.ml { margin-left: $space; }
+	.mr { margin-right: $space; }
+	
+	.px { padding-left: $space;padding-right: $space; }
+	.py { padding-top: $space;padding-bottom: $space; }
+	.pt { padding-top: $space; }
+	.pb { padding-bottom: $space; }
+	.pl { padding-left: $space; }
+	.pr { padding-right: $space; }
+}
+
+// 边框
+.border {
+	@each $key, $fillet in $fillets {
+		&-radius {
+			&-#{$key}: $fillet;
+			
+			&-t-#{$key} { 
+				border-top-left-radius: $fillet;
+				border-top-right-radius: $fillet;
+			}
+			&-tl-#{$key} { border-top-left-radius: $fillet; }
+			&-tr-#{$key} { border-top-right-radius: $fillet; }
+			
+			&-b-#{$key} { 
+				border-bottom-left-radius: $fillet;
+				border-bottom-right-radius: $fillet;
+			}
+			&-bl-#{$key} { border-bottom-left-radius: $fillet; }
+			&-br-#{$key} { border-bottom-right-radius: $fillet; }
+		}
+	}
+	
+	&-n { border: none; }
+	
+	&-t { border-top: 1rpx solid; }
+	
+	&-b { border-bottom: 1rpx solid; }
+}
+
+// flex
+.flex {
+	display: flex;
+	
+	&-w { 
+		flex-wrap: wrap;
+		
+		&-n { flex-wrap: nowrap; }
+	}
+	
+	
+	&-s { flex-shrink: 0; }
+	
+	&-d {
+		flex-direction: row;
+		
+		&-c { flex-direction: column; }
+
+		&-r { flex-direction: row-reverse; }
+	}
+	
+	&-j {
+		justify-content: stretch;
+
+		&-s { justify-content: flex-start; }
+		&-e { justify-content: flex-end; }
+		&-c { justify-content: center; }
+		&-b { justify-content: space-between; }
+		&-a { justify-content: space-around; }
+	}
+	
+	&-a {
+		align-items: stretch;
+
+		&-s { align-items: flex-start; }
+		&-e { align-items: flex-end; }
+		&-c { align-items: center; }
+	}
+	
+	@for $i from 1 to 12 {
+		&-#{$i} {
+			flex: $i;
+		}
+	}
+}
