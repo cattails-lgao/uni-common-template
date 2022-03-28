@@ -1,7 +1,17 @@
 <template>
-	<view>
-		<view></view>
-		<view></view>
+	<view class="tab-container">
+		<scroll-view class="scroll-container" scroll-x="true" >
+			<view class="tabs">
+				<block v-for="(tab, index) in tabs" :key="index">
+					<view class="tab-item">
+						<text>{{ tabs[keyName] }}</text>
+					</view>
+				</block>
+			</view>
+			<view class="line-container">
+				<view class="line"></view>
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -11,6 +21,10 @@
 			tabs: {
 				type: Array,
 				default: () => ([])
+			},
+			keyName: {
+				type: String,
+				default: 'name'
 			}
 		}
 	}
