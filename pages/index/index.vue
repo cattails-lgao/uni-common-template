@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<c-button>登录</c-button>
+		<c-button :width="300" :loading="btnLoading" @cTap="login">登录</c-button>
 	</view>
 </template>
 
@@ -8,14 +8,16 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				btnLoading: false
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-
+			login() {
+				
+			}
 		}
 	}
 </script>

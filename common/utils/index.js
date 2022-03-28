@@ -90,7 +90,7 @@ function Utils() {
 	 * @param {Date} timestamp 时间戳
 	 */
 	function pastDateFormat(timestamp) {
-		if (!timestamp || !this.isNumber(timestamp)) {
+		if (!timestamp || !isNumber(timestamp)) {
 			console.error('时间格式错误', timestamp)
 			return;
 		}
@@ -133,7 +133,7 @@ function Utils() {
 	 * @param {number} num 
 	 */
 	function fillZeroOfTime(num) {
-		if (!this.isNumber(num)) {
+		if (!isNumber(num)) {
 			console.error('补零：该参数不是数字', num);
 			return num;
 		}
