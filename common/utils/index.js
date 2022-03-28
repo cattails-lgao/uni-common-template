@@ -148,10 +148,19 @@ function Utils() {
 	 * @param {string} fmt 格式
 	 */
 	function formatTime(time, fmt = 'YYYY-mm-dd HH:MM:SS') {
-		const date = new Date(time);
-		if(date.toString() === 'Invalid Date') {
-			console.error('请传入正确的时间格式', time);
-			return '';
+		let date;
+		if(!time) {
+			date = new Date();
+		} else if(/^\d{10}$/.test(dateTime?.toString().trim())) {
+			date = new Date(dateTime * 1000)
+		} else if (typeof dateTime === 'string' && /^\d+$/.test(dateTime.trim())) {
+			date = new Date(Number(dateTime))
+		} else {
+			date = new Date(
+			  typeof dateTime === 'string'
+			    ? dateTime.replace(/-/g, '/')
+			    : dateTime
+			)
 		}
 		
 		const opt = {
@@ -186,6 +195,98 @@ function Utils() {
 		return params;
 	}
 	
+	/**
+	 * 验证电子邮箱格式
+	 */
+	function isEmail(value) {
+	    return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value)
+	}
+	
+	/**
+	 * 验证手机格式
+	 */
+	function isMobile(value) {
+	    return /^1[23456789]\d{9}$/.test(value)
+	}
+	
+	/**
+	 * 验证URL格式
+	 */
+	function isUrl(value) {
+	    return /^((https|http|ftp|rtsp|mms):\/\/)(([0-9a-zA-Z_!~*'().&=+$%-]+: )?[0-9a-zA-Z_!~*'().&=+$%-]+@)?(([0-9]{1,3}.){3}[0-9]{1,3}|([0-9a-zA-Z_!~*'()-]+.)*([0-9a-zA-Z][0-9a-zA-Z-]{0,61})?[0-9a-zA-Z].[a-zA-Z]{2,6})(:[0-9]{1,4})?((\/?)|(\/[0-9a-zA-Z_!~*'().;?:@&=+$,%#-]+)+\/?)$/
+	        .test(value)
+	}
+	
+	/**
+	 * 验证身份证号码
+	 */
+	function isIdCard(value) {
+	    return /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/.test(
+	        value
+	    )
+	}
+	
+	/**
+	 * 是否车牌号
+	 */
+	function isCarNo(value) {
+	    // 新能源车牌
+	    const xreg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}(([0-9]{5}[DF]$)|([DF][A-HJ-NP-Z0-9][0-9]{4}$))/
+	    // 旧车牌
+	    const creg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳]{1}$/
+	    if (value.length === 7) {
+	        return creg.test(value)
+	    } if (value.length === 8) {
+	        return xreg.test(value)
+	    }
+	    return false
+	}
+	
+	/**
+	 * 金额,只允许2位小数
+	 */
+	function amountHasTwoPoint(value) {
+	    // 金额，只允许保留两位小数
+	    return /^[1-9]\d*(,\d{3})*(\.\d{1,2})?$|^0\.\d{1,2}$/.test(value)
+	}
+	
+	/**
+	 * 中文
+	 */
+	function isChinese(value) {
+	    const reg = /^[\u4e00-\u9fa5]+$/gi
+	    return reg.test(value)
+	}
+	
+	/**
+	 * 只能输入字母
+	 */
+	function isLetter(value) {
+	    return /^[a-zA-Z]*$/.test(value)
+	}
+	
+	/**
+	 * 只能是字母或者数字
+	 */
+	function isEnOrNum(value) {
+	    // 英文或者数字
+	    const reg = /^[0-9a-zA-Z]*$/g
+	    return reg.test(value)
+	}
+	
+	/**
+	 * 显示消息提示框
+	 * @param {String} title 提示的内容，长度与 icon 取值有关。
+	 * @param {Number} duration 提示的延迟时间，单位毫秒，默认：2000
+	 */
+	function toast(title, duration = 2000) {
+		uni.showToast({
+			title: String(title),
+			icon: 'none',
+			duration
+		})
+	}
+	
 	return Object.freeze({
 		isNumber,
 		isString,
@@ -195,13 +296,23 @@ function Utils() {
 		isBoolean,
 		isDate,
 		isEmptyObj,
+		isEmail,
+		isMobile,
+		isUrl,
+		isIdCard,
+		isCarNo,
+		isChinese,
+		isLetter,
+		amountHasTwoPoint,
+		isEnOrNum,
 		decimalRound,
 		uRandom,
 		createRandomName,
 		pastDateFormat,
 		fillZeroOfTime,
 		formatTime,
-		parseScene
+		parseScene,
+		toast
 	})
 }
 

@@ -38,6 +38,14 @@ function Router() {
 	}
 	
 	/**
+	 * 获取当前路由
+	 */
+	function getCurrentRoute() {
+		const routerList = getRoutes(); 
+		return routerList[routerList.length - 1];
+	}
+	
+	/**
 	 * 进入路由
 	 * @param {Object} callback
 	 */
@@ -118,7 +126,10 @@ function Router() {
 	 * 	@property {func} complete
 	 */
 	function navigateTo(_config) {
+		// 校验路由权限
 		if(!checkRouterAuth(_config)) return;
+		// 避免同一路由重复点击
+		if(_pathIsEq(_config.path.path)) return;
 		
 		let config;
 		if ($Utils.isFunc(interceptors.entry) && interceptors.entry)
@@ -179,8 +190,17 @@ function Router() {
 	 * 校验路由权限
 	 * @param {Object} _config
 	 */
-	function checkRouterAuth(_config) {
+	function _checkRouterAuth(_config) {
 		return _config.path.auth_with;
+	}
+	
+	/**
+	 * 与当前路由是否相等
+	 * @param {Object} url
+	 */
+	function _pathIsEq(url) {
+		const route = getCurrentRoute().route;
+		return url.indexOf(router) === -1; 
 	}
 	
 	/**
@@ -200,7 +220,7 @@ function Router() {
 	 * 	@property {object} path
 	 * 	@property {object} query
 	 */
-	function queryString({ path, query } = {} ) {
+	function _queryString({ path, query } = {} ) {
 		if ((!path && $Utils.isEmptyObj(path)) || (!query && $Utils.isEmptyObj(query))) {
 			console.error('router->queryString->path或query参数错误');
 			return path.path;
@@ -230,6 +250,7 @@ function Router() {
 	
 	return Object.freeze({
 		getRoutes,
+		getCurrentRoute,
 		entry,
 		leave,
 		setRouteBute,
