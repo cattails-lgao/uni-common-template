@@ -58,23 +58,28 @@ function Axios() {
 				success: response => {
 					const statusCode = response.statusCode;
 					if(!checkStatusCode(statusCode)) {
+						uni.hideLoading();
 						reject('');
-					} else {
-						let rsp;
-						
-						if(interceptors.response && $Utils.isFunc(interceptors.response)) {
-							rsp = interceptors.response(response, path)
-						} else {
-							rsp = response.data;
-						}
-						
-						if(rsp.code !== SUCCESS_CODE) {
-							uni.showToast({ title: rsp.msg, icon: 'none' });
-							reject('');
-						} else {
-							resolve(rsp);						
-						}
+						return;
 					}
+					let rsp;
+					
+					if(interceptors.response && $Utils.isFunc(interceptors.response)) {
+						rsp = interceptors.response(response);
+					} else {
+						rsp = response.data;
+					}
+					
+					if(rsp.code !== SUCCESS_CODE) {
+						uni.hideLoading();
+						this.$nextTick(() => {
+							uni.showToast({ title: rsp.msg, icon: 'none' });
+						})
+						reject('');
+						return;
+					} 
+					
+					resolve(rsp);
 				},
 				fail: fail => {
 					reject(fail);
@@ -122,17 +127,7 @@ axios.before((_config, path) => {
 	return _config;
 })
 
-axios.after((response, path) => {
-	console.log(path.url, response.data);
-	const statusCode = response.statusCode;
-	if(statusCode === 401) {
-		
-	} else if(statusCode === 403) {
-		
-	} else if(statusCode === 500) {
-		
-	}
-	
+axios.after(response => {
 	return response.data;
 })
 
