@@ -14,10 +14,10 @@ $spaces: (
 );
 // 圆角
 $fillets: (
-	s: 4rpx,
-	sm: 8rpx,
-	base: 12rpx,
-	cirlce: 50%
+	s: $uni-border-radius-s,
+	sm: $uni-border-radius-sm,
+	base: $uni-border-radius-base,
+	cirlce: $uni-border-radius-circle
 );
 // 字体颜色
 $colors: (
@@ -201,4 +201,14 @@ $backgrounds: (
 			flex: $i;
 		}
 	}
+}
+
+
+// 隐藏scroll-view的滚动条
+::-webkit-scrollbar {
+	display: none;  
+	width: 0 !important;  
+	height: 0 !important;  
+	-webkit-appearance: none;  
+	background: transparent;  
 }

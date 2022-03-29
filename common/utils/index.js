@@ -287,6 +287,14 @@ function Utils() {
 		})
 	}
 	
+	/**
+	 * px转rpx
+	 * @param {number} px 
+	 */
+	function pxToRpx(px) {
+		return px / uni.getSystemInfoSync().windowWidth * 750;
+	}
+	
 	return Object.freeze({
 		isNumber,
 		isString,
@@ -312,7 +320,8 @@ function Utils() {
 		fillZeroOfTime,
 		formatTime,
 		parseScene,
-		toast
+		toast,
+		pxToRpx
 	})
 }
 
