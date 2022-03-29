@@ -2,7 +2,7 @@
 	"easycom": {
 	  "autoscan": true,
 	  "custom": {
-	    "^c-(.*)": "@/components/c-$1.vue" // 匹配components目录内的vue文件
+	    "^c-(.*)": "@/components/c-$1/c-$1.vue" // 匹配components目录内的vue文件
 	  }
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages

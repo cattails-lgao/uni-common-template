@@ -2,7 +2,7 @@
 	<view 
 		:style="{
 			height: height + 'rpx',
-			bgColor: bgColor
+			backgroundColor: bgColor
 		}"
 	></view>
 </template>
