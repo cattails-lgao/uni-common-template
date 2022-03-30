@@ -52,13 +52,19 @@ function Utils() {
 	}
 	/**
 	 * 判断对象是否为空
-	 * @param {Object} Obj
+	 * @param {Object} obj
 	 */
-	function isEmptyObj(Obj) {
-		for (let attr in Obj) {
-			return false;
+	function isEmptyObj(obj, mode = 'for') {
+		if(mode === 'for') {
+			for (let attr in obj) {
+				return false;
+			}
+			return true;			
 		}
-		return true
+		
+		if(mode === 'keys') {
+			return Object.keys(obj).length;
+		}
 	}
 	/**
 	 * 小数四舍五入
