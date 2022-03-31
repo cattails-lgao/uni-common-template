@@ -3,8 +3,16 @@ import Axios from '../http/index.js';
 import * as Interface from '../http/constant/index.js';
 
 function Api() {
-	function init(...args) {
-		
+	const outward = {};
+	function inject(injects) {
+		for(let key in injects) {
+			Object.defineProperty(outward, key, {
+				value: injects[key],
+				enumerable: false,
+				configurable: false,
+				writable: false
+			})
+		}
 	}
 	
 	

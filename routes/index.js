@@ -95,7 +95,7 @@ function Router() {
 		
 		if(funcType !== RouterFuncType.NavigateBack) {
 			if (funcType !== RouterFuncType.SwitchTab && config.query && !$Utils.isEmptyObj(config.query))
-				defaultConfig.url = queryString(config);
+				defaultConfig.url = _queryString(config);
 			else
 				defaultConfig.url = config.path.path;
 		}
@@ -200,7 +200,7 @@ function Router() {
 	 */
 	function _pathIsEq(url) {
 		const route = getCurrentRoute().route;
-		return url.indexOf(router) === -1; 
+		return url.indexOf(router) !== -1; 
 	}
 	
 	/**
