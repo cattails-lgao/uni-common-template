@@ -1,17 +1,7 @@
 // 字体
 $sizes: 64, 48, 40, 32, 28, 24, 20;
 // 间距
-$spaces: (
-	n: 0,
-	s: 20rpx,
-	sm: 24rpx,
-	sm1: 28rpx,
-	m: 32rpx,
-	m1: 36rpx,
-	ml: 40rpx,
-	ml1: 44rpx,
-	ml2: 48rpx
-);
+$spaces: (0, 20, 24, 28, 32, 36, 40, 44, 48);
 // 圆角
 $fillets: (
 	s: $uni-border-radius-s,
@@ -49,47 +39,46 @@ $backgrounds: (
 	}
 }
 // 间距
-@each $key, $space in $spaces {
-	.mx-#{$key} {
-		margin-left: $space;
-		margin-right: $space;
+@each $space in $spaces {
+	.mx-#{$space}r {
+		margin-left: $space + rpx;
+		margin-right: $space + rpx;
 	}
-	.my-#{$key} {
-		margin-top: $space;
-		margin-bottom: $space;
+	.my-#{$space}r {
+		margin-top: $space + rpx;
+		margin-bottom: $space + rpx;
 	}
-	.mt-#{$key} {
-		margin-top: $space;
+	.mt-#{$space$space}r {
+		margin-top: $space + rpx;
 	}
-	.mb-#{$key} {
-		margin-bottom: $space;
+	.mb-#{$space}r {
+		margin-bottom: $space + rpx;
 	}
-	.ml-#{$key} {
-		margin-left: $space;
+	.ml-#{$space}r {
+		margin-left: $space + rpx;
 	}
-	.mr-#{$key} {
-		margin-right: $space;
+	.mr-#{$space}r {
+		margin-right: $space + rpx;
 	}
-	.px-#{$key} {
-		padding-left: $space;
-		padding-right: $space;
+	.px-#{$space}r {
+		padding-left: $space + rpx;
+		padding-right: $space + rpx;
 	}
-
-	.py-#{$key} {
-		padding-top: $space;
-		padding-bottom: $space;
+	.py-#{$space}r {
+		padding-top: $space + rpx;
+		padding-bottom: $space + rpx;
 	}
-	.pt-#{$key} {
-		padding-top: $space;
+	.pt-#{$space}r {
+		padding-top: $space + rpx;
 	}
-	.pb-#{$key} {
-		padding-bottom: $space;
+	.pb-#{$space}r {
+		padding-bottom: $space + rpx;
 	}
-	.pl-#{$key} {
-		padding-left: $space;
+	.pl-#{$space}r {
+		padding-left: $space + rpx;
 	}
-	.pr-#{$key} {
-		padding-right: $space;
+	.pr-#{$space}r {
+		padding-right: $space + rpx;
 	}
 }
 // 颜色
@@ -172,11 +161,9 @@ $backgrounds: (
 		&-e {
 			justify-content: flex-end;
 		}
-
 		&-c {
 			justify-content: center;
 		}
-
 		&-b {
 			justify-content: space-between;
 		}
@@ -202,13 +189,11 @@ $backgrounds: (
 		}
 	}
 }
-
-
 // 隐藏scroll-view的滚动条
 ::-webkit-scrollbar {
-	display: none;  
-	width: 0 !important;  
-	height: 0 !important;  
-	-webkit-appearance: none;  
-	background: transparent;  
+	display: none;
+	width: 0 !important;
+	height: 0 !important;
+	-webkit-appearance: none;
+	background: transparent;
 }

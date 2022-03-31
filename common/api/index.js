@@ -1,19 +1,26 @@
 import Axios from '../http/index.js';
-
 import * as Interface from '../http/constant/index.js';
+import AppApi from './App.js';
 
 function Api() {
-	const outward = {};
+	const Outward = {};
+	let $App;
+		
 	function inject(injects) {
 		for(let key in injects) {
-			Object.defineProperty(outward, key, {
-				value: injects[key],
-				enumerable: false,
-				configurable: false,
-				writable: false
+			Object.defineProperty(Outward, key, {
+				get: function get() {
+					return injects[key];
+				},
+				set: function set() {
+					throw new Error('禁止修改' + key);
+				}
 			})
 		}
+		
+		$App = AppApi(Outward);
 	}
+	
 	
 	
 	function Test() {
@@ -23,8 +30,9 @@ function Api() {
 	}
 	
 	return Object.freeze({
-		init,
-		Test
+		inject,
+		Test,
+		$App
 	})
 }
 

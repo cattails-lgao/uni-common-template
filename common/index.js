@@ -5,5 +5,5 @@ export default function createCommon(vm) {
 	vm.prototype.$Utils = Utils;
 	vm.prototype.$Api = Api;
 	
-	Api.init();
+	Api.inject({ $Utils: Utils });
 }
