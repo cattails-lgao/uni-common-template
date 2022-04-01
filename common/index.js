@@ -1,9 +1,9 @@
 import Utils from './utils/index.js';
-import Api from './api/index.js';
+import App from './api/index.js';
 
 export default function createCommon(vm) {
 	vm.prototype.$Utils = Utils;
-	vm.prototype.$Api = Api;
+	vm.prototype.$App = App;
 	
-	Api.inject({ $Utils: Utils });
+	App.inject({ $Utils: Utils });
 }
