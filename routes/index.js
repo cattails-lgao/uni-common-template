@@ -272,9 +272,6 @@ router.entry(_config => {
 	
 	return _config;
 });
-router.leave(() => {
-	
-})
 
 export default function createRouter(vm) {
 	vm.prototype.$Router = router;

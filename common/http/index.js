@@ -1,4 +1,4 @@
-import $Utils from '@/common/utils/index.js';
+import $Utils from '../utils/index.js';
 import baseURL, { GET, POST, SUCCESS_CODE } from './config.js';
 import checkStatusCode from './constant/statusCode.js';
 
@@ -36,6 +36,10 @@ function Axios() {
 		requestTask.delete(key);
 	}
 	
+	function error(msg) {
+		return new Error(msg);
+	}
+	
 	/**
 	 * 请求
 	 * @param {Object}
@@ -45,7 +49,7 @@ function Axios() {
 	 * 	@property {object} header
 	 * 	@property {string} dataType
 	 */
-	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' } = {}) {
+	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json', errCallback = null } = {}) {
 		const abortKey = 'r_' + path.url;
 		return new Promise((resolve, reject) => {
 			let options = {
@@ -59,7 +63,7 @@ function Axios() {
 					const statusCode = response.statusCode;
 					if(!checkStatusCode(statusCode)) {
 						uni.hideLoading();
-						reject('');
+						reject(error('状态码错误：' + statusCode));
 						return;
 					}
 					let rsp;
@@ -75,7 +79,10 @@ function Axios() {
 						this.$nextTick(() => {
 							uni.showToast({ title: rsp.msg, icon: 'none' });
 						})
-						reject('');
+						
+						if($Utils.isFunc(errCallback)) errCallback.call(null);
+						
+						reject(error('请求错误：' + path.url));
 						return;
 					} 
 					

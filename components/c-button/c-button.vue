@@ -1,6 +1,6 @@
 <template>
 	<button
-		class="btn mx-n my-n py-n px-n font-32r bg-color-primary color-white"
+		class="btn mx-n my-n py-n px-n"
 		:class="[
 			setClass, 
 			showRadius ? 'border-radius-' + radiusSize : '', 
@@ -42,7 +42,7 @@ export default {
 	props: {
 		setClass: {
 			type: String,
-			default: ''
+			default: 'font-32r bg-color-primary color-white'
 		},
 		width: {
 			type: Number,
