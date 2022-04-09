@@ -1,5 +1,5 @@
 import Axios from '../http/index.js';
-import * as Interface from '../http/constant/index.js';
+import * as Interface from './constant/App.js';
 import $Utils from '../utils/index.js';
 
 function App() {
@@ -10,7 +10,6 @@ function App() {
 	}
 	
 	return Object.freeze({
-		inject,
 		Test
 	})
 }

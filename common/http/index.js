@@ -1,6 +1,6 @@
 import $Utils from '../utils/index.js';
 import baseURL, { GET, POST, SUCCESS_CODE } from './config.js';
-import checkStatusCode from './constant/statusCode.js';
+import checkStatusCode from './statusCode.js';
 
 const TIMEOUT = 10000;
 
@@ -89,7 +89,7 @@ function Axios() {
 					resolve(rsp);
 				},
 				fail: fail => {
-					reject(fail);
+					reject(error('请求错误：' + fail.errMsg));
 				},
 				complete: complete => {
 					requestTask.delete(abortKey);
