@@ -52,7 +52,12 @@ export default {
 	},
 	model: {
 		prop: 'value',
-		event: 'change'
+		// #ifndef MP-WEIXIN
+		event: 'change',
+		// #endif
+		// #ifdef MP-WEIXIN
+		event: 'input'
+		// #endif
 	},
 	computed: {
 		setStyle() {
@@ -66,7 +71,12 @@ export default {
 	},
 	methods: {
 		input(e) {
+			// #ifndef MP-WEIXIN
 			this.$emit('change', e.detail.value);
+			// #endif
+			// #ifdef MP-WEIXIN
+			this.$emit('input', e.detail.value);
+			// #endif
 		},
 		clearValue() {
 			this.$emit('change', '');
