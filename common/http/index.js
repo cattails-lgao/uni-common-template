@@ -49,7 +49,7 @@ function Axios() {
 	 * 	@property {object} header
 	 * 	@property {string} dataType
 	 */
-	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json' } = {}) {
+	function request({ path, data = {}, timeout = TIMEOUT, header = {}, dataType = 'json', errCallback = null } = {}) {
 		const abortKey = 'r_' + path.url;
 		return new Promise((resolve, reject) => {
 			let options = {
@@ -82,6 +82,9 @@ function Axios() {
 						setTimeout(() => {
 							uni.showToast({ title: rsp.msg, icon: 'none' });
 						}, 300)
+						
+						if($Utils.isFunc(errCallback)) errCallback.call(null);
+
 						reject(error('请求失败：' + rsp.msg));
 						return;
 					} 
