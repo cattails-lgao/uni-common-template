@@ -127,7 +127,7 @@ function Router() {
 	 */
 	function navigateTo(_config) {
 		// 校验路由权限
-		if(!checkRouterAuth(_config)) return;
+		if(!_checkRouterAuth(_config)) return;
 		// 避免同一路由重复点击
 		if(_pathIsEq(_config.path.path)) return;
 		
@@ -142,7 +142,7 @@ function Router() {
 	}
 
 	function redirectTo(_config) {
-		if(!checkRouterAuth(_config)) return;
+		if(!_checkRouterAuth(_config)) return;
 
 		let config;
 		if ($Utils.isFunc(interceptors.entry) && interceptors.entry)
@@ -155,7 +155,7 @@ function Router() {
 	}
 
 	function reLaunch(_config) {
-		if(!checkRouterAuth(_config)) return;
+		if(!_checkRouterAuth(_config)) return;
 		
 		let config;
 		if ($Utils.isFunc(interceptors.entry) && interceptors.entry)
@@ -168,7 +168,7 @@ function Router() {
 	}
 
 	function switchTab(_config) {
-		if(!checkRouterAuth(_config)) return;
+		if(!_checkRouterAuth(_config)) return;
 		
 		let config;
 		if ($Utils.isFunc(interceptors.entry) && interceptors.entry)
@@ -272,6 +272,9 @@ router.entry(_config => {
 	
 	return _config;
 });
+router.leave(() => {
+	
+})
 
 export default function createRouter(vm) {
 	vm.prototype.$Router = router;

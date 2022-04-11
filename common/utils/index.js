@@ -62,7 +62,7 @@ function isEmptyObj(obj, mode = 'for') {
 	}
 	
 	if(mode === 'keys') {
-		return Object.keys(obj).length;
+		return !Boolean(Object.keys(obj).length);
 	}
 }
 /**
@@ -211,7 +211,7 @@ function isEmail(value) {
  * 验证手机格式
  */
 function isMobile(value) {
-	return /^1[23456789]\d{9}$/.test(value)
+	return /^1[3456789]\d{9}$/.test(value)
 }
 
 /**
@@ -299,7 +299,66 @@ function toast(title, duration = 2000) {
 function pxToRpx(px) {
 	return px / uni.getSystemInfoSync().windowWidth * 750;
 }
+
+/**
+ * 分解时间
+ * @param {string} time 'yyyy-MM-DD HH:mm:ss'
+ */
+function splitDate(time) {
+	let now;
+	if(time) {
+		now = new Date(time);
+	} else {
+		now = new Date();
+	}
 	
+	return {
+		Year: now.getFullYear(), // 年份
+		Month: now.getMonth() + 1, // 月份
+		Date: now.getDate(), // 日期
+		Hours: now.getHours(), // 小时
+		Minutes: now.getMinutes(), // 分钟
+		Seconds: now.getSeconds(), // 秒
+		Day: now.getDay(), // 周几
+		timespace: now.getTime(), // 时间戳
+		Days: (year, month) => { // 总天数
+			return new Date(year || now.getFullYear(), month || (now.getMonth() + 1), 0).getDate()
+		}
+	}
+}
+
+/**
+ * 防抖
+ * @param {func} c  
+ * @param {number}  wait = 1000
+ */
+function throttle(cb, wait = 1000) {
+	let timer = null;
+	return (...args) => {
+		if (timer) clearTimeout(timer);
+
+		timer = setTimeout(() => cb.apply(this, args), wait)
+	}
+}
+
+/**
+ * 节流
+ * @param {func} c  
+ * @param {number}  wait = 1000
+ */
+function debounce(cb, wait = 1000) {
+	let timer = null;
+	return (...args) => {
+		if (!timer) {
+			timer = setTimeout(() => {
+				clearTimeout(timer);
+				timer = null;
+				cb(...args)
+			}, wait)
+		}
+	}
+}
+
 export default Object.freeze({
 	isNumber,
 	isString,
@@ -326,5 +385,8 @@ export default Object.freeze({
 	formatTime,
 	parseScene,
 	toast,
-	pxToRpx
+	pxToRpx,
+	splitDate,
+	throttle,
+	debounce
 })

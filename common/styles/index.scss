@@ -1,13 +1,13 @@
 // 字体
-$sizes: 64, 48, 40, 32, 28, 24, 20;
+$sizes: 64, 48, 44, 40, 36, 32, 28, 26, 24, 20;
 // 间距
-$spaces: (0, 20, 24, 28, 32, 36, 40, 44, 48);
+$spaces: (0, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48);
 // 圆角
 $fillets: (
 	s: $uni-border-radius-s,
 	sm: $uni-border-radius-sm,
 	base: $uni-border-radius-base,
-	cirlce: $uni-border-radius-circle
+	circle: $uni-border-radius-circle
 );
 // 字体颜色
 $colors: (
@@ -17,9 +17,12 @@ $colors: (
 	error: $uni-color-error,
 	base: $uni-text-color,
 	white: $uni-text-color-inverse,
-	grey: $uni-text-color-grey,
+	ccc: $uni-text-color-ccc,
+	666: $uni-text-color-666,
+	999: $uni-text-color-999,
 	placeholder: $uni-text-color-placeholder,
-	disable: $uni-text-color-disable
+	disable: $uni-text-color-disable,
+	f1f1f1: $uni-text-color-f1f1f1
 );
 // 背景色
 $backgrounds: (
@@ -38,45 +41,90 @@ $backgrounds: (
 		font-size: $size + rpx;
 	}
 }
+
+// 字体样式
+.font {
+	&-b {
+		font-weight: bold;
+	}
+	
+	&-a {
+		&-c {
+			text-align: center;
+		}
+		&-l {
+			text-align: left;
+		}
+		&-r {
+			text-align: right;
+		}
+	}
+	
+	&-overflow {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+	}
+	
+	&-line-clamp {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+}
+
 // 间距
 @each $space in $spaces {
 	.mx-#{$space}r {
 		margin-left: $space + rpx;
 		margin-right: $space + rpx;
 	}
+	
 	.my-#{$space}r {
 		margin-top: $space + rpx;
 		margin-bottom: $space + rpx;
 	}
+	
 	.mt-#{$space}r {
 		margin-top: $space + rpx;
 	}
+	
 	.mb-#{$space}r {
 		margin-bottom: $space + rpx;
 	}
+	
 	.ml-#{$space}r {
 		margin-left: $space + rpx;
 	}
+	
 	.mr-#{$space}r {
 		margin-right: $space + rpx;
 	}
+	
 	.px-#{$space}r {
 		padding-left: $space + rpx;
 		padding-right: $space + rpx;
 	}
+	
 	.py-#{$space}r {
 		padding-top: $space + rpx;
 		padding-bottom: $space + rpx;
 	}
+	
 	.pt-#{$space}r {
 		padding-top: $space + rpx;
 	}
+	
 	.pb-#{$space}r {
 		padding-bottom: $space + rpx;
 	}
+	
 	.pl-#{$space}r {
 		padding-left: $space + rpx;
 	}
+	
 	.pr-#{$space}r {
 		padding-right: $space + rpx;
 	}
@@ -188,12 +236,4 @@ $backgrounds: (
 			flex: $i;
 		}
 	}
-}
-// 隐藏scroll-view的滚动条
-::-webkit-scrollbar {
-	display: none;
-	width: 0 !important;
-	height: 0 !important;
-	-webkit-appearance: none;
-	background: transparent;
 }
