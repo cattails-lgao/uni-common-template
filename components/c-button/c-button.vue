@@ -1,9 +1,8 @@
 <template>
 	<button
-		class="btn mx-n my-n py-n px-n"
+		class="btn mx-0r my-0r py-0r px-0r font-32r"
 		:class="[
 			setClass, 
-			showRadius ? 'border-radius-' + radiusSize : '', 
 			disabled || loading ? 'btn-disabled' : ''
 		]"
 		:style="[setStyle]"
@@ -42,7 +41,7 @@ export default {
 	props: {
 		setClass: {
 			type: String,
-			default: 'font-32r bg-color-primary color-white'
+			default: 'bg-color-primary color-white'
 		},
 		width: {
 			type: Number,
@@ -65,8 +64,8 @@ export default {
 			default: true
 		},
 		radiusSize: {
-			type: String,
-			default: 'sm' // s sm base cirlce
+			type: Number,
+			default: 0 // s sm base cirlce
 		},
 		showBorder: {
 			type: Boolean,
@@ -165,6 +164,7 @@ export default {
 			if (this.color) styles.color = this.color;
 
 			if (this.showBorder) styles.border = `${this.borderWidth}rpx solid ${this.borderColor}`;
+			if (this.showRadius) styles.borderRadius = this.radiusSize + 'rpx';
 
 			return styles;
 		}

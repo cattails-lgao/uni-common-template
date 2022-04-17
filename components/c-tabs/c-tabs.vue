@@ -18,7 +18,10 @@
 						:data-id="index"
 						class="tab-item flex-s flex flex-a-c flex-j-c"
 						:class="[
-							tabConfig.disabledScroll ? 'flex-1' : ''
+							tabConfig.disabledScroll ? 'flex-1' : '',
+							{
+								'font-b': tabIndex === index && tabConfig.activeBold
+							}
 						]"
 						:style="{
 							fontSize: tabIndex === index ? tabConfig.activeSize + 'rpx' : tabConfig.defaultSize + 'rpx',
@@ -61,10 +64,13 @@
 		defaultSize: 32, // 字体默认大小
 		activeColor: '#333', // 字体选中颜色
 		activeSize: 32, // 字体选中大小
+		activeBold: false,
 		indicatorLineHeight: 6, // underline高度
 		indicatorLineWidth: 42, // underline宽度
 		lineColor: '#333'
 	}
+	
+	const TAB_PRELOAD_OFFSET = 1;
 	
 	export default {
 		props: {
@@ -79,6 +85,19 @@
 			config: {
 				type: Object,
 				default: () => ({})
+			}
+		},
+		watch: {
+			tabs: {
+				handler: function(val, old) {
+					this.tabIndex = 0;
+					this.scrollInto = 'tab_0';
+					
+					this.$nextTick(function(){
+						this.getTabbarItemsSize();
+					})
+				},
+				deep: true
 			}
 		},
 		data() {
@@ -108,6 +127,8 @@
 				
 				this.scrollInto = 'tab_' + index;
 				this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
+				
+				this.$emit('tabChange', index)
 			},
 			getTabbarItemsSize() {
 				const query = uni.createSelectorQuery().in(this);
@@ -125,18 +146,51 @@
 			    // #endif
 			
 			    // #ifdef MP-WEIXIN || H5 || MP-QQ
-			    query.selectAll('.tab-item').boundingClientRect((rects) => {
-			        rects.forEach((rect) => {
-			            this.tabListSize[rect.dataset.id] = rect;
-			        })
-			    }).exec();
+				this.getRect('.tab-item').then(rects => {
+					rects.forEach((rect) => {
+					    this.tabListSize[rect.dataset.id] = rect;
+					})
+					
+					// #ifdef APP-NVUE || H5 || MP-WEIXIN || MP-QQ
+					setTimeout(() => {
+						if(this.tabListSize[this.tabIndex])
+							this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
+					}, 100)
+					// #endif
+				})
 			    // #endif
+			},
+			getRect(ele) {
+				const query = uni.createSelectorQuery().in(this);
 				
-			    // #ifdef APP-NVUE || H5 || MP-WEIXIN || MP-QQ
-			    setTimeout(() => {
-			        this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
-			    }, 100)
-			    // #endif
+				return new Promise((resolve, reject) => {
+					query.selectAll(ele).boundingClientRect((rects) => {
+					    resolve(rects);
+					}).exec();
+				})
+			},
+			setDx(offsetX) {
+				let preloadIndex = this.tabIndex;
+				
+				if (offsetX > TAB_PRELOAD_OFFSET) {
+				    preloadIndex += 1;
+				} else if (offsetX < -TAB_PRELOAD_OFFSET) {
+				    preloadIndex -= 1;
+				}
+				
+				if (preloadIndex === this.tabIndex || preloadIndex < 0 || preloadIndex > this.tabs.length - 1) return;
+				
+				const percentage = Math.abs(uni.upx2px(this.tabConfig.tabWidth) / offsetX);
+				const currentSize = this.tabListSize[this.tabIndex];
+				const preloadSize = this.tabListSize[preloadIndex];
+				const lineL = currentSize.left + (preloadSize.left - currentSize.left) / percentage;
+				
+				this.updateIndicator(lineL, this.tabListSize[this.tabIndex].width);
+			},
+			setTabIndex(index) {
+				this.scrollInto = 'tab_' + index;
+				this.tabIndex = index;
+				this.updateIndicator(this.tabListSize[this.tabIndex].left, this.tabListSize[this.tabIndex].width);
 			},
 			updateIndicator(left, width) {
 			    this.indicatorLineLeft = left + width / 2 - uni.upx2px(this.tabConfig.indicatorLineWidth) / 2;
@@ -157,6 +211,16 @@
 				}
 			}
 		}
+		
+		// 隐藏scroll-view的滚动条
+		::-webkit-scrollbar {
+			display: none;
+			width: 0 !important;
+			height: 0 !important;
+			-webkit-appearance: none;
+			background: transparent;
+		}
+
 		
 		.underline-container {
 			.underline {

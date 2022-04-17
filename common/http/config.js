@@ -5,10 +5,10 @@ export const SUCCESS_CODE = 1;
 export const ERROR_CODE = 0;
 
 const urlConfig = {
-	// dev: 'http://192.168.9.213:7777',
-	dev: '',
-	test: 'http://e.cdjcqc.com', 
-	pro: 'https://d.cdjcqc.com'
+	dev: 'http://192.168.9.183:7070',
+	// dev: 'http://rest.apizza.net/mock/84aabfe0ca86b2e73ab8597479f7418d',
+	test: '', 
+	pro: ''
 }
 
 let baseURL;

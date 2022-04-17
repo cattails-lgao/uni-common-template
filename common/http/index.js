@@ -1,4 +1,4 @@
-import $Utils from '../utils/index.js';
+import $Utils from '@/common/utils/index.js';
 import baseURL, { GET, POST, SUCCESS_CODE } from './config.js';
 import checkStatusCode from './statusCode.js';
 
@@ -37,7 +37,7 @@ function Axios() {
 	}
 	
 	function error(msg) {
-		return new Error(msg);
+		return new Error(msg)
 	}
 	
 	/**
@@ -62,10 +62,13 @@ function Axios() {
 				success: response => {
 					const statusCode = response.statusCode;
 					if(!checkStatusCode(statusCode)) {
-						uni.hideLoading();
+						setTimeout(() => {
+							uni.hideLoading();
+						}, 300)
 						reject(error('状态码错误：' + statusCode));
 						return;
 					}
+					
 					let rsp;
 					
 					if(interceptors.response && $Utils.isFunc(interceptors.response)) {
@@ -76,20 +79,21 @@ function Axios() {
 					
 					if(rsp.code !== SUCCESS_CODE) {
 						uni.hideLoading();
-						this.$nextTick(() => {
+						setTimeout(() => {
 							uni.showToast({ title: rsp.msg, icon: 'none' });
-						})
+						}, 300)
 						
 						if($Utils.isFunc(errCallback)) errCallback.call(null);
-						
-						reject(error('请求错误：' + path.url));
+
+						reject(error('请求失败：' + rsp.msg));
 						return;
 					} 
 					
 					resolve(rsp);
 				},
 				fail: fail => {
-					reject(error('请求错误：' + fail.errMsg));
+					uni.showToast({ title: fail.errMsg, icon: 'none' });
+					reject(error(fail.errMsg));
 				},
 				complete: complete => {
 					requestTask.delete(abortKey);
@@ -130,7 +134,8 @@ const axios = Axios();
 
 axios.before((_config, path) => {
 	if(path.auth_with) _config.header['Authorization'] = '';
-		
+	
+	_config.data.AccpackageId = uni.getStorageSync('AccpackageId') || 344;
 	return _config;
 })
 
