@@ -129,6 +129,7 @@ function Login() {
 			const deRsp = await _inject.User.Decrypt(loginRsp.data.session.session_key, encryptedData, AesIV, loginRsp.data.session.openid);
 			uni.hideLoading();
 			setStorageSync(UserInfo, {
+				openid: loginRsp.data.session.openid,
 				...getStorageSync(UserInfo),
 				nickname: deRsp.data.nickName,
 				headimgurl: deRsp.data.avatarUrl,

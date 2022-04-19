@@ -79,7 +79,14 @@ export default {
 			// #endif
 		},
 		clearValue() {
-			this.$emit('change', '');
+			// #ifndef MP-WEIXIN
+			this.$emit('change', e.detail.value);
+			// #endif
+			// #ifdef MP-WEIXIN
+			this.$emit('input', e.detail.value);
+			// #endif
+			
+			this.$emit('clear');
 		},
 		rightClick() {
 			this.$emit('rightClick');

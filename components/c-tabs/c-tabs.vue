@@ -138,7 +138,7 @@
 			        query.select('#tab_' + i).boundingClientRect();
 			    }
 			    query.exec(rects => {
-			        console.log(JSON.stringify(rects));
+			        // console.log(JSON.stringify(rects));
 			        rects.forEach((rect) => {
 			            this.tabListSize[rect.dataset.id] = rect;
 			        })

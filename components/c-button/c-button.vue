@@ -95,6 +95,14 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		disabledBgColor: {
+			type: String,
+			default: ''
+		},
+		disabledColor: {
+			type: String,
+			default: ''
+		},
 		loading: {
 			type: Boolean,
 			default: false
@@ -159,9 +167,14 @@ export default {
 				lineHeight: this.height + 'rpx',
 				width: this.width + 'rpx'
 			};
-
-			if (this.bgColor) styles.backgroundColor = this.bgColor;
-			if (this.color) styles.color = this.color;
+			
+			if(this.disabled) {
+				styles.backgroundColor = this.disabledBgColor;
+				styles.color = this.disabledColor;
+			} else {
+				if (this.bgColor) styles.backgroundColor = this.bgColor;
+				if (this.color) styles.color = this.color;				
+			}
 
 			if (this.showBorder) styles.border = `${this.borderWidth}rpx solid ${this.borderColor}`;
 			if (this.showRadius) styles.borderRadius = this.radiusSize + 'rpx';
