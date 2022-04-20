@@ -1,7 +1,10 @@
 <script>
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			console.log('App Launch');
+			// #ifdef MP-WEIXIN
+			this.$App.updateMiniProgram();
+			// #endif
 		},
 		onShow: function() {
 			console.log('App Show')
