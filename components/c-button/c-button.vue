@@ -79,6 +79,14 @@ export default {
 			type: String,
 			default: '#f1f1f1'
 		},
+		showShadow: {
+			type: Boolean,
+			default: false
+		},
+		boxShadow: {
+			type: String,
+			default: ''
+		},
 		size: {
 			type: String,
 			default: 'default'
@@ -178,7 +186,8 @@ export default {
 
 			if (this.showBorder) styles.border = `${this.borderWidth}rpx solid ${this.borderColor}`;
 			if (this.showRadius) styles.borderRadius = this.radiusSize + 'rpx';
-
+			if (this.showShadow) styles.boxShadow = '0 0 5rpx 5rp #ccc';
+			
 			return styles;
 		}
 	},

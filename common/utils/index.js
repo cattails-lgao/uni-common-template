@@ -339,7 +339,7 @@ function splitDate(time) {
 			return LunarCalendar.solarToLunar(Year, Month, Dates);
 		}
 	}
-},
+}
 
 /**
  * 防抖

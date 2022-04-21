@@ -84,7 +84,7 @@ function Login() {
 		console.log('静默授权');
 		const code = await loginCode();
 		
-		const rsp = await _inject.User.WxLogin(AppInfo.appId, code);
+		const rsp = await _inject.UserApi.WxLogin(AppInfo.appId, code);
 		
 		if(rsp.code !== SUCCESS_CODE) return;
 		
@@ -114,7 +114,7 @@ function Login() {
 		Promise.all([ loginCode(), getUserProfile() ]).then(async rsp => {
 			uni.showLoading({ title: '登录中', mask: true });
 			const [code, { encryptedData, iv: AesIV }] = rsp;
-			const loginRsp = await _inject.User.WxLogin(AppInfo.appId, code);
+			const loginRsp = await _inject.UserApi.WxLogin(AppInfo.appId, code);
 			// console.log(loginRsp);
 			// 设置账套
 			setStorageSync(AccpackageId, loginRsp.data.AccpackageId);
@@ -126,7 +126,7 @@ function Login() {
 			if(loginRsp.data.userInfo) setStorageSync(UserInfo, loginRsp.data.userInfo);
 			
 			// 解密
-			const deRsp = await _inject.User.Decrypt(loginRsp.data.session.session_key, encryptedData, AesIV, loginRsp.data.session.openid);
+			const deRsp = await _inject.UserApi.Decrypt(loginRsp.data.session.session_key, encryptedData, AesIV, loginRsp.data.session.openid);
 			uni.hideLoading();
 			setStorageSync(UserInfo, {
 				openid: loginRsp.data.session.openid,

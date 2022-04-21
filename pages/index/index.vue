@@ -1,13 +1,15 @@
 <template>
 	<view>
-		<c-button :width="300" :loading="btnLoading" @cTap="login">登录</c-button>
+		<!-- <c-button :width="300" :loading="btnLoading" @cTap="login">登录</c-button>
 		<c-gap />
 		<c-tabs 
 			:tabs="tabsList"  
 			:config="{
 				defaultSize: 28
 			}"
-		/>
+		/> -->
+		
+		<c-image-cropper></c-image-cropper>
 	</view>
 </template>
 

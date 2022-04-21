@@ -13,5 +13,5 @@ export default function createCommon(vm) {
 	vm.prototype.$Login = Login;
 	vm.prototype.$App = App;
 	
-	Login.inject({ User })
+	Login.inject({ UserApi })
 }
