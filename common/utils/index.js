@@ -315,14 +315,17 @@ function splitDate(time) {
 	return {
 		Year: now.getFullYear(), // 年份
 		Month: now.getMonth() + 1, // 月份
-		Date: now.getDate(), // 日期
+		Dates: now.getDate(), // 日期
 		Hours: now.getHours(), // 小时
 		Minutes: now.getMinutes(), // 分钟
 		Seconds: now.getSeconds(), // 秒
 		Day: now.getDay(), // 周几
 		timespace: now.getTime(), // 时间戳
-		Days: (year, month) => { // 总天数
+		Days: function(year, month) => { // 总天数
 			return new Date(year || now.getFullYear(), month || (now.getMonth() + 1), 0).getDate()
+		},
+		lunar: function() {
+			
 		}
 	}
 }
