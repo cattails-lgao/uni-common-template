@@ -1,3 +1,5 @@
+import LunarCalendar from './LunarCalendar.js'
+
 /**
  * 是否为数字
  * @param {Object} num
@@ -312,23 +314,32 @@ function splitDate(time) {
 		now = new Date();
 	}
 	
+	const Year = now.getFullYear(); // 年份
+	const Month = now.getMonth() + 1; // 月份
+	const Dates = now.getDate(); // 日期
+	const Hours = now.getHours(); // 小时
+	const Minutes = now.getMinutes(); // 分钟
+	const Seconds = now.getSeconds(); // 秒
+	const Day = now.getDay(); // 周几
+	const timespace = now.getTime(); // 时间戳
+	
 	return {
-		Year: now.getFullYear(), // 年份
-		Month: now.getMonth() + 1, // 月份
-		Dates: now.getDate(), // 日期
-		Hours: now.getHours(), // 小时
-		Minutes: now.getMinutes(), // 分钟
-		Seconds: now.getSeconds(), // 秒
-		Day: now.getDay(), // 周几
-		timespace: now.getTime(), // 时间戳
-		Days: function(year, month) => { // 总天数
-			return new Date(year || now.getFullYear(), month || (now.getMonth() + 1), 0).getDate()
+		Year,
+		Month,
+		Dates,
+		Hours,
+		Minutes,
+		Seconds,
+		Day,
+		timespace,
+		Days: (year, month) => { // 总天数
+			return new Date(year || Year, month || Month, 0).getDate()
 		},
-		lunar: function() {
-			
+		Lunar: function() {
+			return LunarCalendar.solarToLunar(Year, Month, Dates);
 		}
 	}
-}
+},
 
 /**
  * 防抖
