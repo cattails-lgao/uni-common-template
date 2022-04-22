@@ -9,12 +9,14 @@ async function ImageCropper(params = {}) {
 	// 初始化对象, 各种事件监听挂载
 	const cropper = Object.create(Methods());
 	// 初始化绘制图片
-	const paper = await Paper(oid, src);
+	const paper = await Paper(oid, src, cWidth, cHeight);
+	cropper.paper = paper;
+	
 	// 初始化绘制裁剪区域
-	const cut = Cut(cid, cWidth, cHeight);
+	Cut(cid, cWidth, cHeight);
+	
 	cropper.init = function init() {
-		paper();
-		cut();
+		paper.drawPaper();
 	};
 	
 	return cropper;

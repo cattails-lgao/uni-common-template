@@ -6,7 +6,7 @@ export default function Cut(cid, cWidth, cHeight) {
 	// 画背景
 	ctx.beginPath();
 	ctx.rect(0, 0, windowWidth, windowHeight);
-	ctx.setFillStyle('rgba(0,0,0, .3)')
+	ctx.setFillStyle('rgba(0,0,0, .5)')
 	ctx.fill();
 	ctx.closePath();
 	
@@ -17,6 +17,5 @@ export default function Cut(cid, cWidth, cHeight) {
 	ctx.closePath();
 	
 	// 完成
-	ctx.draw()
-	return () => {}
+	ctx.draw();
 }
