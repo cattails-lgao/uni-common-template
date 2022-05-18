@@ -19,7 +19,8 @@ export default {
 			cid: 'cut-canvas',
 			oid: 'origin-canvas',
 			// src: 'https://w.wallhaven.cc/full/72/wallhaven-72rxqo.jpg'// 横图
-			src: 'https://w.wallhaven.cc/full/y8/wallhaven-y865rd.jpg'// 长图
+			// src: 'https://w.wallhaven.cc/full/y8/wallhaven-y865rd.jpg'// 长图
+			src: "https://w.wallhaven.cc/full/j3/wallhaven-j3pwdp.png"
 		}).then(Cropper => {
 			this.cropper = Cropper;
 		});

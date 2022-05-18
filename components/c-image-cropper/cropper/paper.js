@@ -27,7 +27,7 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 	const initImgX = 0;
 	let changeY = initImgY;
 	
-	const allowMoveDistance = Math.abs(initImgY - cY);
+	const allowMoveDistance = cY - initImgY;
 	// 点击点记录
 	// 开始坐标记录
 	let sTouchX = 0;
@@ -70,7 +70,7 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 		eTouchX1 = x1;
 		eTouchY1 = y1;
 		
-		let diffX = eTouchX - sTouchX <= 0 ? 0 : eTouchX - sTouchX;
+		let diffX = eTouchX - sTouchX;
 		let diffY = eTouchY - sTouchY;
 		
 		// 可移动范围外
@@ -79,7 +79,7 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 			return;
 		}
 		// 可移动范围内
-		console.log(sTouchY > eTouchY, diffY, allowMoveDistance)
+		console.log(diffY, allowMoveDistance)
 		// 上移
 		if(sTouchY < eTouchY && diffY >= allowMoveDistance) {
 			return;
@@ -93,7 +93,7 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 		// 右移
 		if(sTouchX > eTouchX) {}
 		
-		updatePaper(diffX, diffY + allowMoveDistance);
+		updatePaper(diffX, diffY);
 	}
 	
 	return {
