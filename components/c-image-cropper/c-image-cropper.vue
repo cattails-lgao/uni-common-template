@@ -18,25 +18,16 @@ export default {
 		ImageCropper({
 			cid: 'cut-canvas',
 			oid: 'origin-canvas',
-			src: 'https://w.wallhaven.cc/full/6o/wallhaven-6ozkzl.jpg'
+			// src: 'https://w.wallhaven.cc/full/72/wallhaven-72rxqo.jpg'// 横图
+			src: 'https://w.wallhaven.cc/full/y8/wallhaven-y865rd.jpg'// 长图
 		}).then(Cropper => {
 			this.cropper = Cropper;
 		});
-	},
-	watch: {
-		cropper: function() {
-			this.cropper.init();
-		}
 	}
 };
 </script>
 <script module="imageCropper" lang="renderjs">
 	export default {
-		mounted() {
-			this.$nextTick(function() {
-				if(this.cropper) this.cropper.init();
-			});
-		},
 		methods: {
 			touchstart(e) {
 				this.cropper.onTouchstart(e);

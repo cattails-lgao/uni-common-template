@@ -4,8 +4,8 @@ export default function methods(cropper) {
 	// 裁剪完成
 	function onComplete() {}
 	
-	function onTouchstart(e)  {
-		console.log('onTouchstar', e);
+	function onTouchstart(e)  {	
+		// console.log('onTouchstar', e);
 		const touches = e.touches;
 		// 一指
 		const x = touches[0].x;
@@ -24,12 +24,25 @@ export default function methods(cropper) {
 	
 	function onTouchmove(e) {
 		// console.log('onTouchmove', e);
-		this.paper.setMoveTouchPostion();
+		const touches = e.changedTouches;
+		// 一指
+		const x = touches[0].x;
+		const y = touches[0].y;
+		
+		// 两指
+		let x1 = 0;
+		let y1 = 0;
+		if(touches.length > 1) {
+			x1 = touches[1].x;
+			y1 = touches[1].y;			
+		}
+		
+		this.paper.setMoveTouchPostion(x, y, x1, y1);
 	}
 	
 	function onTouchend(e) {
 		// console.log('onTouchend', e);
-		this.paper.setMoveTouchPostion();
+		// this.paper.setMoveTouchPostion();
 	}
 	
 	return {
