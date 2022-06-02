@@ -1,6 +1,6 @@
 <template>
 	<button
-		class="btn mx-0r my-0r py-0r px-0r font-32r"
+		class="btn mx-0r my-0r py-0r px-0r font-32r flex flex-a-c flex-j-c"
 		:class="[
 			setClass, 
 			disabled || loading ? 'btn-disabled' : ''
@@ -18,7 +18,7 @@
 		:send-message-path="sendMessagePath"
 		:send-message-img="sendMessageImg"
 		:show-message-card="showMessageCard"
-		:hover-class="hoverClass"
+		hover-class="none"
 		:hover-start-time="hoverStartTime"
 		:hover-stay-time="hoverStayTime"
 		:hover-stop-propagation="hoverStopPropagation"
@@ -32,6 +32,13 @@
 		@tap.stop="_tap"
 	>
 		<slot></slot>
+		
+		<view class="btn-click-hover" :style="{
+			transform: 'scale(' + (isClick ? Math.ceil(width/height) + 5 : 0) + ')',
+			opacity: Number(isClick),
+			width: height + 'rpx',
+			height: height + 'rpx',
+		}"></view>
 	</button>
 </template>
 
@@ -191,8 +198,21 @@ export default {
 			return styles;
 		}
 	},
+	data() {
+		return {
+			isClick: false
+		}
+	},
 	methods: {
 		_tap(e) {
+			if(!this.isClick) {
+				this.isClick = true;
+				
+				setTimeout(() => {
+					this.isClick = false;
+				}, 300)				
+			}
+			
 			if (timer) return;
 			timer = setTimeout(() => {
 				clearTimeout(timer);
@@ -241,6 +261,8 @@ export default {
 
 <style lang="scss" scope>
 .btn {
+	position: relative;
+	
 	&::after {
 		border: none;
 	}
@@ -253,5 +275,13 @@ export default {
 
 .btn-disabled {
 	background-color: rgba($color: #000000, $alpha: $uni-opacity-disabled);
+}
+
+.btn-click-hover {
+	position: absolute;
+	top: 0;
+	transition: transform .3s linear;
+	border-radius: 50%;
+	box-shadow: 0 0 10px 1px rgba(#fff, .5) inset;
 }
 </style>
