@@ -41,3 +41,5 @@ function App() {
 		updateMiniProgram
 	})
 }
+
+export default App();
