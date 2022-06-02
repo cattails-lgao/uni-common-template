@@ -31,6 +31,18 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 		X: 0,
 		Y: windowHeight / 2 - scaleHeight / 2
 	}
+	// 可移动范围
+	/*
+	 裁剪框坐标x - 图片坐标x 
+	 y同理
+	 [上，下，左，右]
+	 */
+	const allowMoveRange = [
+		cY - storeChangeXY.Y - 1, 
+		(cY + cHeight) - (storeChangeXY.Y + scaleHeight) + 1,
+		cX - storeChangeXY.X - 1,
+		(cX + cWidth) - (storeChangeXY.X + scaleWidth) + 1,
+	];
 	
 	// 开始坐标记录
 	let sTouchX = 0;
@@ -69,22 +81,26 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 		const diffX = eTouchX - sTouchX;
 		const diffY = eTouchY - sTouchY;
 		// 移动距离
-		const moveDX = storeChangeXY.X + diffX;
-		const moveDY = storeChangeXY.Y + diffY;
-		// console.log(moveDX, moveDY);
-		// 可移动范围
-		/*
-		 裁剪框坐标x - 图片坐标x 
-		 y同理
-		 [上，下，左，右]
-		 */
-		const allowMoveRange = [
-			cY - storeChangeXY.Y, 
-			cY + cHeight - storeChangeXY.Y + scaleHeight,
-			cX - storeChangeXY.X,
-			cX + cWidth - storeChangeXY.X + scaleWidth,
-		];
-		console.log(allowMoveRange)
+		let moveDX = storeChangeXY.X + diffX;
+		let moveDY = storeChangeXY.Y + diffY;
+		
+		// 上边界
+		if(moveDY > allowMoveRange[0]) {
+			moveDY = allowMoveRange[0];
+		}
+		// 下边界
+		if(moveDY < allowMoveRange[1]) {
+			moveDY = allowMoveRange[1];
+		}
+		// 左边界
+		if(moveDX > allowMoveRange[2]) {
+			moveDX = allowMoveRange[2];
+		}
+		// 右边界
+		if(moveDX < allowMoveRange[3]) {
+			moveDX = allowMoveRange[3];
+		}
+		
 		updatePaper(moveDX, moveDY);
 	}
 	
