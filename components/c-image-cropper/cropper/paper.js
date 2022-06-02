@@ -2,50 +2,50 @@ import { getDevice, getImageInfo } from './tools.js';
 
 export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 	const ctx = uni.createCanvasContext(oid);
-	if(!src) return;
+	if(!src) {
+		console.error('缺少裁剪图片');
+		return;
+	}
 	// 获取设备信息
 	const { windowHeight, windowWidth } = getDevice();
 	// 获取图片信息
 	const { width, height, path } = await getImageInfo(src);
+	
 	// 等比例缩小图片
-	let imgHeight = windowHeight;
-	const scale = windowWidth / width;
-	imgHeight = scale * height;
+	let scale;
+	let scaleHeight; // 缩小后的高度
+	let scaleWidth; // 已屏幕宽度为准
 	
-	let scaleHeight = imgHeight;
-	let scaleWidth = windowHeight;
-	let scaleX = 0;
-	let scaleY = 0;
-	
-	if(cHeight > imgHeight) {
-		const scale = cHeight / imgHeight;
-		scaleHeight = cHeight;
-		scaleWidth = windowWidth * scale;
+	if(width > height) {
+		scale = windowWidth / width;
+		scaleWidth = windowWidth;
+		scaleHeight = height * scale;
+	} else {
+		scale = windowHeight / height;
+		scaleWidth = width * scale;
+		scaleHeight = windowHeight;
 	}
 	
-	const initImgY = windowHeight / 2 - scaleHeight / 2;
-	const initImgX = 0;
-	let changeY = initImgY;
+	// 存储移动的最后一个位置
+	const storeChangeXY = {
+		X: 0,
+		Y: windowHeight / 2 - scaleHeight / 2
+	}
 	
-	const allowMoveDistance = cY - initImgY;
-	// 点击点记录
 	// 开始坐标记录
 	let sTouchX = 0;
 	let sTouchY = 0;
-	let sTouchX1 = 0
-	let sTouchY1 = 0;
 	// 结束坐标记录
 	let eTouchX = 0;
 	let eTouchY = 0;
-	let eTouchX1 = 0
-	let eTouchY1 = 0;
 	
-	function drawPaper(x = initImgX, y = initImgY) {
+	function drawPaper(x = storeChangeXY.X, y = storeChangeXY.Y) {
 		// src x y w h x1 y1 w1 h1
 		// 画在正中间
+		ctx.beginPath();
 		ctx.drawImage(path, x, y, scaleWidth, scaleHeight)
 		ctx.draw();
-		changeY = y;
+		ctx.closePath();
 	}
 	
 	// 更新paper
@@ -59,46 +59,52 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 	function setStartTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
 		sTouchX = x
 		sTouchY = y;
-		sTouchX1 = x1;
-		sTouchY1 = y1;
 	}
 	
 	// 存储移动中的位置
 	function setMoveTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
 		eTouchX = x;
 		eTouchY = y;
-		eTouchX1 = x1;
-		eTouchY1 = y1;
-		
-		let diffX = eTouchX - sTouchX;
-		let diffY = eTouchY - sTouchY;
-		
-		// 可移动范围外
-		// 上边界 || 下边界 || 左边界 || 右边界
-		if(eTouchY < cY || eTouchY > cY + scaleHeight || eTouchX < cX || eTouchX > cX + cWidth) {
-			return;
-		}
-		// 可移动范围内
-		console.log(diffY, allowMoveDistance)
-		// 上移
-		if(sTouchY < eTouchY && diffY >= allowMoveDistance) {
-			return;
-		}
-		// 下移
-		if(sTouchY > eTouchY && diffY >= allowMoveDistance) {
-			return;
-		}
-		// 左移
-		if(sTouchX < eTouchX) {}
-		// 右移
-		if(sTouchX > eTouchX) {}
-		
-		updatePaper(diffX, diffY);
+		// 差值
+		const diffX = eTouchX - sTouchX;
+		const diffY = eTouchY - sTouchY;
+		// 移动距离
+		const moveDX = storeChangeXY.X + diffX;
+		const moveDY = storeChangeXY.Y + diffY;
+		// console.log(moveDX, moveDY);
+		// 可移动范围
+		/*
+		 裁剪框坐标x - 图片坐标x 
+		 y同理
+		 [上，下，左，右]
+		 */
+		const allowMoveRange = [
+			cY - storeChangeXY.Y, 
+			cY + cHeight - storeChangeXY.Y + scaleHeight,
+			cX - storeChangeXY.X,
+			cX + cWidth - storeChangeXY.X + scaleWidth,
+		];
+		console.log(allowMoveRange)
+		updatePaper(moveDX, moveDY);
+	}
+	
+	function setEndTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
+		// 差值
+		const diffX = x - sTouchX;
+		const diffY = y - sTouchY;
+		// 移动距离
+		const moveDX = storeChangeXY.X + diffX;
+		const moveDY = storeChangeXY.Y + diffY;
+		// 存储最后一个坐标
+		storeChangeXY.X = moveDX;
+		storeChangeXY.Y = moveDY;
+		console.log(storeChangeXY);
 	}
 	
 	return {
 		drawPaper,
 		setStartTouchPostion,
-		setMoveTouchPostion
+		setMoveTouchPostion,
+		setEndTouchPostion
 	}
 }
