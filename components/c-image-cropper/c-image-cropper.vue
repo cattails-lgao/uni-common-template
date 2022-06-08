@@ -38,7 +38,7 @@ export default {
 			},
 			touchend(e) {
 				this.cropper.onTouchend(e);
-			}
+			},
 		}
 	}
 </script>

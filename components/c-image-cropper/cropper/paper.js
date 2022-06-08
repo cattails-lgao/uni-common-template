@@ -47,14 +47,27 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 	// 开始坐标记录
 	let sTouchX = 0;
 	let sTouchY = 0;
+	let sTouchX1;
+	let sTouchY1;
 	// 结束坐标记录
 	let eTouchX = 0;
 	let eTouchY = 0;
+	let eTouchX1;
+	let eTouchY1;
 	
-	function drawPaper(x = storeChangeXY.X, y = storeChangeXY.Y) {
+	function drawBg() {
+		ctx.beginPath();
+		ctx.setFillStyle('#333')
+		ctx.fillRect(0, 0, windowWidth, windowHeight);
+		ctx.closePath();
+	}
+	
+	function drawPaper(x = storeChangeXY.X, y = storeChangeXY.Y, scale = 1) {
 		// src x y w h x1 y1 w1 h1
 		// 画在正中间
+		drawBg();
 		ctx.beginPath();
+		ctx.scale(scale, scale)
 		ctx.drawImage(path, x, y, scaleWidth, scaleHeight)
 		ctx.draw();
 		ctx.closePath();
@@ -68,15 +81,34 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 	}
 	
 	// 存储第一次的位置
-	function setStartTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
+	function setStartTouchPostion(x = 0, y = 0, x1, y1) {
 		sTouchX = x
 		sTouchY = y;
+		// 二指
+		if(x1 != undefined && y1 != undefined) {
+			sTouchX1 = x1;
+			sTouchY1 = y1;			
+		}
 	}
 	
 	// 存储移动中的位置
-	function setMoveTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
+	function setMoveTouchPostion(x = 0, y = 0, x1, y1) {
 		eTouchX = x;
 		eTouchY = y;
+		
+		// 二指
+		if(x1 != undefined && y1 != undefined) {
+			eTouchX1 = x1;
+			eTouchY1 = y1;
+			
+			scalePaper();
+			return;
+		}
+		
+		movePaper();
+	}
+	
+	function movePaper() {
 		// 差值
 		const diffX = eTouchX - sTouchX;
 		const diffY = eTouchY - sTouchY;
@@ -104,10 +136,13 @@ export default async function Paper(oid, src, cWidth, cHeight, cX, cY) {
 		updatePaper(moveDX, moveDY);
 	}
 	
-	function setEndTouchPostion(x = 0, y = 0, x1 = 0, y1 = 0) {
+	function scalePaper() {}
+	
+	function setEndTouchPostion(x = 0, y = 0, x1, y1) {
 		// 差值
 		const diffX = x - sTouchX;
 		const diffY = y - sTouchY;
+		
 		// 移动距离
 		const moveDX = storeChangeXY.X + diffX;
 		const moveDY = storeChangeXY.Y + diffY;

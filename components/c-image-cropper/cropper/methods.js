@@ -1,10 +1,10 @@
-export default function methods(cropper) {
+export default function methods(paper) {
 	// 初始化完成
-	function onInit() {}
+	const onInit = function onInit() {}
 	// 裁剪完成
-	function onComplete() {}
+	const onComplete = function onComplete() {}
 	
-	function onTouchstart(e)  {	
+	const onTouchstart = function onTouchstart(e)  {	
 		// console.log('onTouchstar', e);
 		const touches = e.touches;
 		// 一指
@@ -12,17 +12,17 @@ export default function methods(cropper) {
 		const y = touches[0].y;
 		
 		// 两指
-		let x1 = 0;
-		let y1 = 0;
+		let x1;
+		let y1;
 		if(touches.length > 1) {
 			x1 = touches[1].x;
-			y1 = touches[1].y;			
+			y1 = touches[1].y;
 		}
 		
-		this.paper.setStartTouchPostion(x, y, x1, y1);
+		paper.setStartTouchPostion(x, y, x1, y1);
 	}
 	
-	function onTouchmove(e) {
+	const onTouchmove = function onTouchmove(e) {
 		// console.log('onTouchmove', e);
 		const touches = e.changedTouches;
 		// 一指
@@ -30,30 +30,30 @@ export default function methods(cropper) {
 		const y = touches[0].y;
 		
 		// 两指
-		let x1 = 0;
-		let y1 = 0;
+		let x1;
+		let y1;
 		if(touches.length > 1) {
 			x1 = touches[1].x;
 			y1 = touches[1].y;			
 		}
 		
-		this.paper.setMoveTouchPostion(x, y, x1, y1);
+		paper.setMoveTouchPostion(x, y, x1, y1);
 	}
 	
-	function onTouchend(e) {
+	const onTouchend = function onTouchend(e) {
 		const touches = e.changedTouches;
 		// 一指
 		const x = touches[0].x;
 		const y = touches[0].y;
 		// 两指
-		let x1 = 0;
-		let y1 = 0;
+		let x1;
+		let y1;
 		if(touches.length > 1) {
 			x1 = touches[1].x;
 			y1 = touches[1].y;			
 		}
 		
-		this.paper.setEndTouchPostion(x, y, x1, y1);
+		paper.setEndTouchPostion(x, y, x1, y1);
 	}
 	
 	return {
