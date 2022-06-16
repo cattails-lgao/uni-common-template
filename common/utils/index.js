@@ -307,10 +307,13 @@ function pxToRpx(px) {
  * @param {string} time 'yyyy-MM-DD HH:mm:ss'
  */
 function splitDate(time) {
+	if(typeof time !== 'number' && typeof time !== 'string') return null;
+	
 	let now;
-	if(time) {
+	
+	try {
 		now = new Date(time);
-	} else {
+	} catch {
 		now = new Date();
 	}
 	
@@ -323,6 +326,15 @@ function splitDate(time) {
 	const Day = now.getDay(); // 周几
 	const timespace = now.getTime(); // 时间戳
 	
+	const o = {
+		"y+": Year, // 年
+		"M+": Month, //月份 
+		"d+": Dates, //日 
+		"H+": Hours, //小时 
+		"m+": Minutes, //分 
+		"s+": Seconds //秒 
+	};
+	
 	return {
 		Year,
 		Month,
@@ -332,11 +344,20 @@ function splitDate(time) {
 		Seconds,
 		Day,
 		timespace,
-		Days: (year, month) => { // 总天数
+		Days(year, month) { // 总天数
 			return new Date(year || Year, month || Month, 0).getDate()
 		},
-		Lunar: function() {
+		Lunar() { // 农历
 			return LunarCalendar.solarToLunar(Year, Month, Dates);
+		},
+		format(fmt = 'yyyy-MM-dd HH:mm:ss') {			
+			for (var k in o){
+				const reg = new RegExp("(" + k + ")")
+				 if (reg.test(fmt)){
+					 fmt = fmt.replace(reg, item => o[k] < 10 ? '0' + o[k] : o[k]);
+				 }
+			}
+			return fmt;
 		}
 	}
 }
