@@ -1,5 +1,6 @@
 import Utils from '../utils/index.js';
 import { SUCCESS_CODE } from '../http/config.js';
+import { WxLogin, Decrypt } from '@/common/api/User.js';
 
 function Login() {
 	// #ifdef MP-WEIXIN
@@ -11,15 +12,6 @@ function Login() {
 	const isPartnerKey = 'isPartnerkey';
 	
 	let profileTimer = null;
-
-	// 注入的
-	const _inject = {};
-	
-	function inject(args) {
-		for(let key in args) {
-			_inject[key] = args[key];
-		}
-	}
 	
 	function isCheckExpired() {
 		return new Promise((resolve, reject) => {
@@ -84,7 +76,7 @@ function Login() {
 		console.log('静默授权');
 		const code = await loginCode();
 		
-		const rsp = await _inject.UserApi.WxLogin(AppInfo.appId, code);
+		const rsp = await WxLogin(AppInfo.appId, code);
 		
 		if(rsp.code !== SUCCESS_CODE) return;
 		
@@ -114,7 +106,7 @@ function Login() {
 		Promise.all([ loginCode(), getUserProfile() ]).then(async rsp => {
 			uni.showLoading({ title: '登录中', mask: true });
 			const [code, { encryptedData, iv: AesIV }] = rsp;
-			const loginRsp = await _inject.UserApi.WxLogin(AppInfo.appId, code);
+			const loginRsp = await WxLogin(AppInfo.appId, code);
 			// console.log(loginRsp);
 			// 设置账套
 			setStorageSync(AccpackageId, loginRsp.data.AccpackageId);
@@ -126,7 +118,7 @@ function Login() {
 			if(loginRsp.data.userInfo) setStorageSync(UserInfo, loginRsp.data.userInfo);
 			
 			// 解密
-			const deRsp = await _inject.UserApi.Decrypt(loginRsp.data.session.session_key, encryptedData, AesIV, loginRsp.data.session.openid);
+			const deRsp = await Decrypt(loginRsp.data.session.session_key, encryptedData, AesIV, loginRsp.data.session.openid);
 			uni.hideLoading();
 			setStorageSync(UserInfo, {
 				openid: loginRsp.data.session.openid,
@@ -146,7 +138,6 @@ function Login() {
 	}
 	
 	return Object.freeze({
-		inject,
 		isCheckExpired,
 		silenceAuth,
 		userProfile,

@@ -2,6 +2,8 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
+		},
+		onLoad() {
 			// #ifdef MP-WEIXIN
 			this.$App.updateMiniProgram();
 			// #endif

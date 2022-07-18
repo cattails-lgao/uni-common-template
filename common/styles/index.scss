@@ -16,7 +16,7 @@ $colors: (
 	warning: $uni-color-warning,
 	error: $uni-color-error,
 	base: $uni-text-color,
-	white: $uni-text-color-inverse,
+	white: $uni-text-color-white,
 	ccc: $uni-text-color-ccc,
 	666: $uni-text-color-666,
 	999: $uni-text-color-999,
@@ -131,13 +131,13 @@ $backgrounds: (
 }
 // 颜色
 @each $key, $color in $colors {
-	.color-#{$key} {
+	.color-#{"" + $key} {
 		color: $color;
 	}
 }
 // 背景色
 @each $key, $color in $backgrounds {
-	.bg-color-#{$key} {
+	.bg-color-#{"" + $key} {
 		background-color: $color;
 	}
 }

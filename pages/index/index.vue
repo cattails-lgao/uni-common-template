@@ -1,15 +1,15 @@
 <template>
-	<view>
-		<!-- <c-button :width="300" :loading="btnLoading" @cTap="login">登录</c-button>
+	<view :data-theme="theme" class="page-index">
+		<c-button :width="300" :loading="btnLoading" @cTap="login">登录</c-button>
 		<c-gap />
 		<c-tabs 
 			:tabs="tabsList"  
 			:config="{
 				defaultSize: 28
 			}"
-		/> -->
+		/>
 		
-		<c-image-cropper></c-image-cropper>
+		<!-- <c-image-croppez></c-image-cropper> -->
 	</view>
 </template>
 
@@ -22,7 +22,8 @@
 					return {
 						name: 'tab' + index
 					}
-				})
+				}),
+				theme: 'theme1'
 			}
 		},
 		onLoad() {
@@ -37,5 +38,5 @@
 </script>
 
 <style lang="scss" scope>
-	
+
 </style>

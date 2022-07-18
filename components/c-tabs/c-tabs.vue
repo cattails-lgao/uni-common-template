@@ -119,7 +119,9 @@
 			this.tabListSize = {};
 		},
 		mounted() {
-			this.getTabbarItemsSize();
+			this.$nextTick(() => {
+				this.getTabbarItemsSize();
+			})
 		},
 		methods: {
 			tabChange(index) {

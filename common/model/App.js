@@ -1,14 +1,14 @@
 function App() {
-	
+
 	// 小程序更新
 	function updateMiniProgram() {
-		if(uni.canIUse('getUpdateManager')) {
+		if (uni.canIUse('getUpdateManager')) {
 			const updateManager = uni.getUpdateManager();
-			
-			updateManager.onCheckForUpdate(function (res) {
+
+			updateManager.onCheckForUpdate(function(res) {
 				// 请求完新版本信息的回调
-				if(res.hasUpdate) {
-					updateManager.onUpdateReady(function (res) {
+				if (res.hasUpdate) {
+					updateManager.onUpdateReady(function(res) {
 						uni.showModal({
 							title: '更新提示',
 							content: '新版本已经准备好，是否重启应用？',
@@ -18,10 +18,10 @@ function App() {
 									updateManager.applyUpdate();
 								}
 							}
-						});	
+						});
 					});
-					
-					updateManager.onUpdateFailed(function (res) {
+
+					updateManager.onUpdateFailed(function(res) {
 						// 新的版本下载失败
 						console.error('新的版本下载失败', res);
 					});
@@ -35,8 +35,8 @@ function App() {
 			})
 		}
 	}
-	
-	
+
+
 	return Object.freeze({
 		updateMiniProgram
 	})
